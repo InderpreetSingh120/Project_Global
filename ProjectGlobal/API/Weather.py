@@ -9,7 +9,7 @@ import streamlit as st
 from dotenv import load_dotenv
 
 load_dotenv()
-API_KEY = os.getenv("WEATHER_KEY")
+API_KEY = os.getenv("WEATHER_KEY") or st.secrets.get("WEATHER_KEY")
 print("OpenWeather API key loaded." if API_KEY else "⚠️ WEATHER_KEY not found in environment.")
 
 GEOCODE_URL = "http://api.openweathermap.org/geo/1.0/direct"
