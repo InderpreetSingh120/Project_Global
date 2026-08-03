@@ -1,0 +1,8 @@
+# Requirements
+
+streamlit
+plotly
+requests
+pandas
+speedtest-cli
+python-dotenv

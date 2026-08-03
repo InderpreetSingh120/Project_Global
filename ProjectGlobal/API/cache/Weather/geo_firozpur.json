@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Firozpur",
+    "local_names": {
+      "ml": "ഫിറോസ്പൂർ",
+      "hi": "फिरोजपुर",
+      "ar": "فيروزبور",
+      "pa": "ਫ਼ਿਰੋਜ਼ਪੁਰ",
+      "en": "Firozpur",
+      "ja": "フィールーズプル",
+      "ur": "فیروزپور",
+      "bn": "ফিরোজপুর",
+      "kn": "ಫಿರೋಜ್ಪುರ್",
+      "mr": "फिरोजपुर"
+    },
+    "lat": 30.9611784,
+    "lon": 74.6092483,
+    "country": "IN",
+    "state": "Punjab"
+  },
+  {
+    "name": "Firozpur",
+    "lat": 23.498047800000002,
+    "lon": 77.67221732075232,
+    "country": "IN",
+    "state": "Madhya Pradesh"
+  },
+  {
+    "name": "Firozpur",
+    "lat": 30.8171804,
+    "lon": 76.7400169,
+    "country": "IN",
+    "state": "Punjab"
+  },
+  {
+    "name": "Firozpur",
+    "lat": 25.8585646,
+    "lon": 76.3202754,
+    "country": "IN",
+    "state": "Rajasthan"
+  }
+]

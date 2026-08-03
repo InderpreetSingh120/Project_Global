@@ -1,0 +1,71 @@
+{
+    "status": "ok",
+    "totalResults": 34,
+    "articles": [
+        {
+            "source": {
+                "id": "espn",
+                "name": "ESPN"
+            },
+            "author": null,
+            "title": "Sources: Dodgers finalizing trade to acquire Tarik Skubal - espn.com",
+            "description": "The first-place Los Angeles Dodgers finalized a trade to acquire two-time American League Cy Young Award winner Tarik Skubal, 29, from the Tigers, sources told ESPN's Jeff Passan on Saturday, sending Zyhir Hope, River Ryan and Brady Smith to Detroit.",
+            "url": "https://www.espn.com/mlb/story/_/id/49509987/dodgers-finalizing-trade-acquire-tarik-skubal",
+            "urlToImage": "https://a4.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0802%2Fr1696566_1296x729_16%2D9.jpg",
+            "publishedAt": "2026-08-02T03:44:00Z",
+            "content": "Aug 1, 2026, 11:44 PM ET\r\nThe Los Angeles Dodgers acquired two-time American League Cy Young Award winner Tarik Skubal from the Detroit Tigers late Saturday night, sources told ESPN's Jeff Passan.\r\nT… [+2085 chars]"
+        },
+        {
+            "source": {
+                "id": "cbs-news",
+                "name": "CBS News"
+            },
+            "author": null,
+            "title": "Several people killed in explosion at Moscow restaurant, Russian officials say - CBS News",
+            "description": "An explosion Saturday at a Moscow restaurant that killed three people and wounded 21 others was a bombing, Russian authorities said.",
+            "url": "https://www.cbsnews.com/news/explosion-moscow-restaurant-fatalities-injuries/",
+            "urlToImage": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/08/01/0382be0a-b319-4211-93e7-93a28082aa5e/thumbnail/1200x630/38fe231d36c4e407457051e003dc8293/ap26213689313039.jpg",
+            "publishedAt": "2026-08-02T03:40:59Z",
+            "content": "An explosion Saturday at a Moscow restaurant that killed three people and wounded 21 others was a bombing, Russia's national anti-terrorism committee said, the Tass state news agency reported.\r\n \"A h… [+1751 chars]"
+        },
+        {
+            "source": {
+                "id": "bleacher-report",
+                "name": "Bleacher Report"
+            },
+            "author": "Chris Roling",
+            "title": "Oba Femi's Win vs. Brock Lesnar at SummerSlam Marks the Start of WWE's Next Era - Bleacher Report",
+            "description": "Few things in pro wrestling are bigger than a promotion's top title.&nbsp;",
+            "url": "https://bleacherreport.com/articles/25460673-oba-femis-win-vs-brock-lesnar-summerslam-marks-start-wwes-next-era",
+            "urlToImage": "https://gsp-image-cdn.wmsports.io/cms/prod/bleacher-report/getty_images/2026-08/2288659421_large_cropped.jpg?w=1118&h=630",
+            "publishedAt": "2026-08-02T03:18:13Z",
+            "content": "Few things in pro wrestling are bigger than a promotion's top title. \r\nBrock Lesnar just provided one of those rarities to Oba Femi during and after the main event of SummerSlam, effectively ushering… [+3776 chars]"
+        },
+        {
+            "source": {
+                "id": null,
+                "name": "BBC News"
+            },
+            "author": null,
+            "title": "Trump says he is cancelling strikes on Iran subject to 'rapidly' making deal - BBC",
+            "description": "The US president's message came amid media reports that he was planning new, intense strikes on Iran over the weekend.",
+            "url": "https://www.bbc.com/news/articles/cjwx74qgld2o",
+            "urlToImage": "https://ichef.bbci.co.uk/news/1024/branded_news/9c36/live/eb797180-8e18-11f1-b916-5b9500660788.jpg",
+            "publishedAt": "2026-08-02T02:19:13Z",
+            "content": "In the post, Trump said that the US was \"locked and loaded and ready to go against the Islamic Republic of Iran, at levels of Military Terror, Strength, and Power not seen since World War II\"."
+        },
+        {
+            "source": {
+                "id": null,
+                "name": "MLB.com"
+            },
+            "author": "MLB.com",
+            "title": "Trade rumors: Adley, Kirby, Skubal, Miller, Angels, more - mlb.com",
+            "description": "August has arrived, and Monday's Trade Deadline is fast approaching.",
+            "url": "https://www.mlb.com/news/mlb-trade-rumors-and-2026-trade-deadline-news-august-1",
+            "urlToImage": "https://img.mlbstatic.com/mlb-images/image/upload/t_2x1/t_w1536/v1780720752/mlb/e2itwnuvwyukosocyg9w.jpg",
+            "publishedAt": "2026-08-02T02:09:50Z",
+            "content": "August has arrived, and Monday's Trade Deadline is fast approaching.\r\nThis years biggest trade chip came off the market late Saturday night when the Dodgers acquired Tarik Skubal from the Tigers, a s… [+7278 chars]"
+        }
+    ]
+}

@@ -1,0 +1,71 @@
+{
+    "status": "ok",
+    "totalResults": 37,
+    "articles": [
+        {
+            "source": {
+                "id": "al-jazeera-english",
+                "name": "Al Jazeera English"
+            },
+            "author": "Mariem Bah",
+            "title": "Russian missile attack kills three in Ukraine’s Kyiv - Al Jazeera",
+            "description": "Residents trapped as partially collapsed buildings catch fire after deadly strike on Ukrainian capital.",
+            "url": "https://www.aljazeera.com/news/2026/8/1/russian-missile-attack-kills-three-in-ukraines-kyiv",
+            "urlToImage": "https://www.aljazeera.com/wp-content/uploads/2026/08/reuters_6a6d3fd2-1785544658.jpg?resize=1920%2C1440",
+            "publishedAt": "2026-08-01T07:43:27Z",
+            "content": "Russia has pounded Ukraines capital Kyiv with ballistic missiles, killing at least nine people and wounding 28 others, including four children, according to Kyiv Mayor Vitali Klitschko.\r\nThe strikes … [+1847 chars]"
+        },
+        {
+            "source": {
+                "id": "associated-press",
+                "name": "Associated Press"
+            },
+            "author": "Graham Dunbar",
+            "title": "Infantino abandons plans to sell World Cup profits to private equity following massive pushback - AP News",
+            "description": "FIFA President Gianni Infantino is abandoning his divisive plan to sell World Cup profits to private equity after receiving pushback from all corners of the soccer world. Infantino’s decision came after his senior adviser who sat on a White House panel resign…",
+            "url": "https://apnews.com/article/world-cup-infantino-fifa-investors-8aba1b529f220c27d02d326e8fd9e377",
+            "urlToImage": "https://dims.apnews.com/dims4/default/2b3ab91/2147483647/strip/true/crop/3500x2332+0+0/resize/980x653!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2Fa4%2Ff1%2F7e7562ee4339b2e5772bef7ca50f%2Fe5f229667eef4aabaf064d5e7b74ae4e",
+            "publishedAt": "2026-08-01T07:37:00Z",
+            "content": "GENEVA (AP) FIFA President Gianni Infantino is abandoning his divisive plan to sell World Cup profits to private equity after receiving pushback from all corners of the soccer world.\r\nInfantinos deci… [+3280 chars]"
+        },
+        {
+            "source": {
+                "id": "associated-press",
+                "name": "Associated Press"
+            },
+            "author": "Mark Carlson, Masha Macpherson",
+            "title": "As heat and dry conditions fan wildfires in France, volunteers fan out to help - AP News",
+            "description": "Jean-François Pauner is among many volunteers helping firefighters battle wildfires in southwestern France. The fires have devastated 42,000 hectares west of Bordeaux, forcing nearly a quarter-million people from their homes. This summer, Europe faces extreme…",
+            "url": "https://apnews.com/article/france-spain-greece-wildfires-heat-climate-change-e9d86be61ca9538b910a78e5cd87553e",
+            "urlToImage": "https://dims.apnews.com/dims4/default/a8c885d/2147483647/strip/true/crop/5500x3665+0+1/resize/980x653!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2Fef%2Fe2%2F9b86636322001e9f0837d7169076%2F87147efa9ce24094a22a55c721cfae2b",
+            "publishedAt": "2026-08-01T05:15:00Z",
+            "content": "LANTON, France (AP) With his watering can and bucket, Jean-François Pauner meanders from one small fire to the next along a forest floor, dousing small flare-ups of wildfires that have swept through … [+4396 chars]"
+        },
+        {
+            "source": {
+                "id": null,
+                "name": "Suntimes.com"
+            },
+            "author": "Georgia Nicols",
+            "title": "Horoscope for Saturday, August 01, 2026 - Chicago Sun-Times",
+            "description": null,
+            "url": "https://chicago.suntimes.com/horoscopes/2026/08/01/horoscopes-today-saturday-august-01-2026",
+            "urlToImage": "https://cst.brightspotcdn.com/dims4/default/2145dbd/2147483647/strip/true/crop/870x497+0+67/resize/1461x834!/quality/90/?url=https%3A%2F%2Fchorus-production-cst-web.s3.us-east-1.amazonaws.com%2Fbrightspot%2Fac%2Ffd%2F790f04b15195427014757adc0272%2Fgeorgia-nicols.jpg",
+            "publishedAt": "2026-08-01T05:01:00Z",
+            "content": "Moon alert\r\nThere are no restrictions to shopping or important decisions today. The moon is in Pisces.\r\nAries (March 21-April 19)\r\nToday is a pleasant, easygoing day. In particular, family discussion… [+4061 chars]"
+        },
+        {
+            "source": {
+                "id": "associated-press",
+                "name": "Associated Press"
+            },
+            "author": "Josh Boak",
+            "title": "Trump wanted interest rate cuts to be 'Rocket Fuel' for the economy. He is losing that fight so far - apnews.com",
+            "description": "President Donald Trump has for months pressured the Federal Reserve to slash interest rates, claiming it would be “Rocket Fuel!” for growth. But he seems to be losing his battle. Since the war in Iran began, borrowing money has become more expensive, meaning …",
+            "url": "https://apnews.com/article/trump-interest-rates-midterms-iran-9db7b892114e7863064323396f633c9d",
+            "urlToImage": "https://dims.apnews.com/dims4/default/e773b3c/2147483647/strip/true/crop/5640x3758+0+1/resize/980x653!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2Fcb%2F05%2F58e5c6e3e8845bf2f66b8ab689b8%2Ffa4c0db14f2049a2801a35b9d858aaee",
+            "publishedAt": "2026-08-01T04:00:00Z",
+            "content": "WASHINGTON (AP) President Donald Trump has been losing his own battle to cut interest rates.\r\nThe president likes to vilify high rates as an affront to the size and strength of the U.S. economy, sayi… [+5840 chars]"
+        }
+    ]
+}
