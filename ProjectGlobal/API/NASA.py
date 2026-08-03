@@ -12,7 +12,7 @@ SAVE_DIR = os.path.join(os.path.dirname(__file__), "cache", "nasa")
 
 load_dotenv()
 
-API_KEY = os.getenv("NASA_KEY")
+API_KEY = os.getenv("NASA_KEY") or st.secrets.get("NASA_KEY")
 
 
 def download_apod():
