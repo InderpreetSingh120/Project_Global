@@ -11,7 +11,7 @@ ALL_URL = "https://newsapi.org/v2/everything"
 SAVE_DIR = os.path.join(os.path.dirname(__file__), "cache", "news")
 
 load_dotenv()
-API_KEY = os.getenv("NEWS_KEY")
+API_KEY = os.getenv("NEWS_KEY") or st.secrets.get("NEWS_KEY")
 
 
 def download_news() -> dict:
