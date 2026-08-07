@@ -4,3 +4,4 @@ requests
 pandas
 speedtest-cli
 python-dotenv
+statsmodels
