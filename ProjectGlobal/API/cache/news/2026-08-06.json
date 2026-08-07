@@ -1,0 +1,58 @@
+{
+    "status": "ok",
+    "totalResults": 35,
+    "articles": [
+        {
+            "source": {
+                "id": null,
+                "name": "Hollywood Reporter"
+            },
+            "author": "Carly Thomas",
+            "title": "Police Respond to Perez Hilton’s Miami Home After He Appeared to Harm Himself on Livestream - The Hollywood Reporter",
+            "description": "After confirming the celebrity gossip blogger was alone in the home, authorities later said he was \"safely recovered and transported by Miami-Dade Fire Rescue to a local hospital, where he is receiving medical attention.\"",
+            "url": "http://www.hollywoodreporter.com/news/general-news/police-respond-perez-hilton-home-harm-himself-livestream-1236664590/",
+            "urlToImage": "https://www.hollywoodreporter.com/wp-content/uploads/2026/08/Perez-Hilton-getty-H-2026.png?w=1296&h=730&crop=1",
+            "publishedAt": "2026-08-05T04:05:05Z",
+            "content": "Police reportedly responded to Perez Hilton‘s home in Miami after the celebrity gossip blogger appeared to be harming himself on a TikTok livestream.\r\nIn graphic clips reposted on social media, Hilto… [+2777 chars]"
+        },
+        {
+            "source": {
+                "id": "axios",
+                "name": "Axios"
+            },
+            "author": "Rebecca Falconer",
+            "title": "Man arrested near Trump golf course after gun found in car - Axios",
+            "description": "Deputies say they found a pistol and illegal ammunition in the suspect's vehicle in a parking lot at Trump National Golf Club.",
+            "url": "https://www.axios.com/2026/08/05/trump-golf-course-arrest-la",
+            "urlToImage": "https://images.axios.com/Dizfh1K7U4iZMJ5s5Mm6Ytnnxkk=/0x306:5320x3299/1366x768/2026/08/05/1785888964003.jpeg",
+            "publishedAt": "2026-08-05T03:51:06Z",
+            "content": "Authorities said Tuesday they arrested a suspect near President Trump's Los Angeles-area golf course ahead of his fundraising visit.\r\nThe big picture: Jeanine John Taele, 38, of Downey, California, w… [+1319 chars]"
+        },
+        {
+            "source": {
+                "id": null,
+                "name": "The Boston Globe"
+            },
+            "author": null,
+            "title": "Catching on with new team is hard, as new Red Sox Adley Rutschman and Jake Rogers are finding out - The Boston Globe",
+            "description": "Although Rutschman's on the injured list, he’s free to catch bullpen sessions with his new teammates and spend more time in the dugout to get to know them.",
+            "url": "https://www.bostonglobe.com/2026/08/04/sports/adley-rutschman-red-sox-alex-speier/",
+            "urlToImage": "https://bostonglobe-prod.cdn.arcpublishing.com/resizer/v2/JRKY6SAMAOUQNXF6SMTPIJXGHY.jpg?auth=5e3e8b0a4e85191f05ad6f9e1ade5d30d5ed56ee0e13b6af125ed021eb9db569&width=1440",
+            "publishedAt": "2026-08-05T03:45:00Z",
+            "content": "Newly acquired catcher Adley Rutschmans view on the magnitude of his task?\r\nIts a unique situation, he acknowledged at Fenway Park on Tuesday, his first day with the Red Sox. Ive never been traded be… [+3529 chars]"
+        },
+        {
+            "source": {
+                "id": "axios",
+                "name": "Axios"
+            },
+            "author": "Andrew Solender",
+            "title": "Progressive Will Lawrence wins key Michigan House primary in blow to Dem leaders - Axios",
+            "description": "Establishment-backed candidates split the moderate vote — just as many Democrats feared.",
+            "url": "https://www.axios.com/2026/08/05/michigan-7th-district-will-lawrence-maasdam-brink",
+            "urlToImage": "https://images.axios.com/vLQcHxcr2LxMGs412rLgR17sH9M=/0x59:1600x959/1366x768/2026/08/05/1785900525188.webp",
+            "publishedAt": "2026-08-05T03:34:51Z",
+            "content": "<ul><li>Several top House Democratic moderates expressed the view to Axios last month that Lawrence cannot beat Rep. Tom Barrett (R-Mich.) in Michigan's 7th District.</li><li>But progressives have pu… [+1374 chars]"
+        }
+    ]
+}

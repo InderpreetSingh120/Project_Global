@@ -1,0 +1,71 @@
+{
+    "status": "ok",
+    "totalResults": 37,
+    "articles": [
+        {
+            "source": {
+                "id": null,
+                "name": "Toledo Blade"
+            },
+            "author": "ALICE MOMANY",
+            "title": "U.S. Rep. Marcy Kaptur ‘active, alert’ after crash; person involved at large - Toledo Blade",
+            "description": "The driver believed to be at fault in a crash Sunday morning that sent U.S. Rep. Marcy Kaptur (D., Toledo) to the hospital is still at large, Toledo Police ...",
+            "url": "https://www.toledoblade.com/local/police-fire/2026/08/02/u-s-rep-marcy-kaptur-hospitalized-after-car-crash-sources-say/stories/20260802111",
+            "urlToImage": "https://www.toledoblade.com/image/2026/08/02/600x_q90_a4-3_cTCjpg_ca1384,1058,7467,4964/CTY-Kaptur03-a.jpg",
+            "publishedAt": "2026-08-03T04:29:38Z",
+            "content": null
+        },
+        {
+            "source": {
+                "id": "cnn",
+                "name": "CNN"
+            },
+            "author": "Julianna Bragg, Amanda Watts, Amanda Jackson, August Phillips, Eric Zerkel, Cindy Von Quednow, Chris Boyette, Lauren Mascarenhas, Chris Warren, Dakota Smith, Chris Dolce, Brandon Miller, Hanna Park, Martin Goillandeau, Chris Lau, Dalia Faheid, Laura Sharman",
+            "title": "Live updates: Residents return to find homes destroyed by fast-moving wildfires in Washington state - cnn.com",
+            "description": "At least 600 structures have been destroyed and thousands of families have evacuated as crews battle three major wildfires in Spokane County, Washington. Follow live updates.",
+            "url": "https://www.cnn.com/2026/08/02/us/live-news/spokane-washington-wildfire-old-trails-hnk",
+            "urlToImage": "https://media.cnn.com/api/v1/images/stellar/prod/still-22858661-1659646-407-still.jpg?c=16x9&q=w_800,c_fill",
+            "publishedAt": "2026-08-03T04:05:00Z",
+            "content": "Firefighters battling three major wildfires around Spokane will get their most favorable weather in several days Monday, but the break wont last as temperatures climb back into the 90s later this wee… [+1386 chars]"
+        },
+        {
+            "source": {
+                "id": "nbc-news",
+                "name": "NBC News"
+            },
+            "author": "Kelly O'Donnell, Michael Kosnar, Raquel Coronell Uribe",
+            "title": "Acting AG Todd Blanche reaches deal with holdout senators to end $1.8B ‘anti-weaponization’ fund - NBC News",
+            "description": "The Senate Judiciary Committee is set to hold a vote to advance Blanche’s nomination Tuesday.",
+            "url": "https://www.nbcnews.com/politics/congress/acting-ag-todd-blanche-reaches-deal-holdout-senators-end-18b-anti-weap-rcna590525",
+            "urlToImage": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/rockcms/2026-07/260730-todd-blanche-vl-1159a-f2d691.jpg",
+            "publishedAt": "2026-08-03T03:48:00Z",
+            "content": "After a weekslong standoff between senators and the Trump administration, acting Attorney General Todd Blanche announced Sunday night that the parties had reached a deal and that had he issued an ord… [+2087 chars]"
+        },
+        {
+            "source": {
+                "id": "politico",
+                "name": "Politico"
+            },
+            "author": "Associated Press",
+            "title": "Kay Granger, first Republican woman from Texas to serve in the House, has died at age 83 - Politico",
+            "description": "First elected in 1996, she went on to chair one of the most powerful committees in Congress, the House Appropriations Committee.",
+            "url": "https://www.politico.com/news/2026/08/02/kay-granger-first-republican-woman-texas-house-dies-at-age-83-01022042",
+            "urlToImage": "https://www.politico.com/dims4/default/resize/1200/quality/90/format/jpg?url=https%3A%2F%2Fstatic.politico.com%2Fef%2Fba%2F1b6490c245519fb58ed7559eb1b9%2Fhouse-rules-committee-hearing-82449.jpg",
+            "publishedAt": "2026-08-03T03:05:00Z",
+            "content": "First elected to the House in 1996, she did not seek reelection in 2024 and experienced worsening health challenges in her final months in Congress, according to a statement her office released in De… [+1868 chars]"
+        },
+        {
+            "source": {
+                "id": "associated-press",
+                "name": "Associated Press"
+            },
+            "author": "Trisnadi, Niniek Karmini",
+            "title": "A blaze on an Indonesian passenger ferry leaves at least 5 dead and dozens missing - AP News",
+            "description": "An Indonesian ferry carrying 271 people has caught fire in waters off Madura island, killing at least five people and leaving 41 others unaccounted for, authorities said. The Mutiara Sentosa 2 was en route from Surabaya to Makassar when the blaze broke out ea…",
+            "url": "https://apnews.com/article/indonesia-sumenep-ferry-catches-fire-da71e9c734e8caacd07f83e3555e3382",
+            "urlToImage": "https://dims.apnews.com/dims4/default/a424012/2147483647/strip/true/crop/5025x3348+0+1/resize/980x653!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2F59%2F35%2F8e9dba5ca19ee3469bf51eee69b2%2F9e37c7afe0d6414d91d0a0d64df0e382",
+            "publishedAt": "2026-08-03T02:42:00Z",
+            "content": "SURABAYA, Indonesia (AP) An Indonesian ferry carrying 271 people caught fire in waters off the main island of Java on Sunday, leaving at least five people dead and dozens missing as rescuers and pass… [+3503 chars]"
+        }
+    ]
+}

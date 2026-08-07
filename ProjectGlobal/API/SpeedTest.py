@@ -32,7 +32,7 @@ def run_speedtest(timeout: int = 30) -> Dict:
     # speedtest-cli has no per-call timeout argument — it relies on the socket
     # module's global default, so that's the only way to actually bound it.
     # Restored afterward so this doesn't leak into unrelated requests elsewhere.
-    previous_timeout = socket.getdefaulttimeout()
+    previous_timeout = socket.getdefaulttimeout() 
     socket.setdefaulttimeout(timeout)
     try:
         st_speedtest = speedtest.Speedtest()

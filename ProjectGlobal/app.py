@@ -25,7 +25,7 @@ st.set_page_config(
     page_title="Project Global",
     page_icon="🌍",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="auto",
 )
 
 # ── Load Data ──
@@ -43,25 +43,10 @@ if "selected_location" not in st.session_state:
     st.session_state.selected_location = None
 if "last_weather_query" not in st.session_state:
     st.session_state.last_weather_query = None
-
-# ── Sidebar ──
-with st.sidebar:
-    st.title("🌍 Project Global")
-    st.caption("A comprehensive dashboard for weather, news, space, and speed testing.")
-    st.divider()
-    st.subheader("Navigation")
-    st.write("• 🏠 Home — Overview")
-    st.write("• 📰 News — Latest headlines & search")
-    st.write("• 🌤️ Weather & AQI — Current conditions & forecasts")
-    st.write("• 🚀 Speed Test — Internet speed analysis")
-    st.write("• 🪐 NASA — Astronomy Picture of the Day")
-    st.divider()
-    st.caption("Built with Streamlit & Plotly")
-
 # ── Tabs ──
 st.title("Project Global")
-Home, News_tab, weather, speedtest_tab, nasa = st.tabs(
-    ["🏠 Home", "📰 News", "🌤️ Weather & AQI", "🚀 Speed Test", "🪐 NASA"]
+Home, News_tab, weather, speedtest_tab, nasa, ai_model, global_happiness_index = st.tabs(
+    ["🏠 Home", "📰 News", "🌤️ Weather & AQI", "🚀 Speed Test", "🪐 NASA", "🤖 AI Models", "😊 GHI"]
 )
 
 # ═══════════════════════════════════════════
@@ -179,7 +164,7 @@ with weather:
                 f"({place.get('lat'):.2f}, {place.get('lon'):.2f})"
             )
             with cols[col_idx]:
-                if st.button(label, key=f"loc_{i}", use_container_width=True):
+                if st.button(label, key=f"loc_{i}", width="stretch"):
                     st.session_state.selected_location = place
                     st.rerun()
 
@@ -213,7 +198,7 @@ with weather:
                         st.subheader("📅 5-Day Forecast")
                         fig1 = create_forecast_chart(forecast)
                         if fig1:
-                            st.plotly_chart(fig1, use_container_width=True)
+                            st.plotly_chart(fig1)
 
                     # ── Air Quality ──
                     st.divider()
@@ -256,7 +241,7 @@ with weather:
                             st.subheader("📅 AQI Forecast")
                             aqi_fig = create_aqi_forecast_chart(aqi_fc)
                             if aqi_fig:
-                                st.plotly_chart(aqi_fig, use_container_width=True)
+                                st.plotly_chart(aqi_fig)
                     else:
                         st.warning(
                             "Air quality data not available for this location."
@@ -279,7 +264,7 @@ with speedtest_tab:
             "🚀 Start Speed Test",
             key="start_speedtest",
             type="primary",
-            use_container_width=True,
+            width="stretch",
         )
     with col_info:
         history = st.session_state.speed_history
@@ -368,26 +353,26 @@ with speedtest_tab:
                 st.divider()
                 st.subheader("📈 Speed Breakdown")
                 gauge_fig = create_speed_gauge_figure(results)
-                st.plotly_chart(gauge_fig, use_container_width=True)
+                st.plotly_chart(gauge_fig)
 
                 # ── Download Time Comparison ──
                 st.divider()
                 st.subheader("⏱️ Download Time Estimates")
                 comp_fig = create_download_comparison_figure(results["download_mbps"])
-                st.plotly_chart(comp_fig, use_container_width=True)
+                st.plotly_chart(comp_fig)
 
                 # ── Radar Chart ──
                 st.divider()
                 st.subheader("🕸️ Connection Quality Radar")
                 radar_fig = create_speed_radar_figure(results)
-                st.plotly_chart(radar_fig, use_container_width=True)
+                st.plotly_chart(radar_fig)
 
                 # ── History Chart ──
                 if len(history) > 1:
                     st.divider()
                     st.subheader("📊 Speed Test History")
                     history_fig = create_speed_history_figure(history)
-                    st.plotly_chart(history_fig, use_container_width=True)
+                    st.plotly_chart(history_fig)
 
                     col_clear, _ = st.columns([1, 4])
                     with col_clear:
@@ -423,9 +408,104 @@ with nasa:
         st.title("🚀 NASA Astronomy Picture of the Day")
         st.subheader(f"Title: {nasadata.get('title', 'N/A')}")
         if nasadata.get("url"):
-            st.image(nasadata["url"], use_container_width=True)
+            st.image(nasadata["url"], width="stretch")
         st.write(f"**Date:** {nasadata.get('date', 'N/A')}")
         st.subheader("Explanation")
         st.write(nasadata.get("explanation", "No explanation available."))
     else:
         st.error("Failed to retrieve NASA data. Please check your NASA API key.")
+# ═══════════════════════════════════════════
+#  AI MODELS
+# ═══════════════════════════════════════════
+with ai_model:
+    st.header("🤖 AI Model Arena Rankings")
+    st.write(
+        "Data from the AI Model Arena, showcasing the latest rankings and "
+        "performance metrics of various AI models."
+    )
+    st.caption(
+        'Source: [Kaggle — AI Model Arena Rankings 2023–2026](https://www.kaggle.com/datasets/riyagarg0314/ai-model-arena-rankings-2023-2026)'
+    )
+    st.divider()
+
+    # ── Load Data ──
+    try:
+        from API.ai_model import (
+            load_ai_data,
+            render_kpis,
+            top_models,
+            VRcharts,
+            Votebarchart,
+            firstplace,
+            license_distribution,
+            models_over_time,
+            rating_distribution,
+            subset_distribution,
+            raw_data_table,
+        )
+    except ImportError:
+        st.error(
+            "Could not import `ai_model` module."
+        )
+        st.stop()
+
+    try:
+        df = load_ai_data()
+    except FileNotFoundError:
+        st.error(
+            "AI model dataset not found.\n\n"
+            "Place your cleaned CSV at `data/ai_model_arena.csv` "
+            "or update the path in `API/ai_model.py`."
+        )
+        st.stop()
+    except Exception as e:
+        st.error(f"Failed to load AI model data: {str(e)}")
+        st.stop()
+
+    if df is None or df.empty:
+        st.warning("The AI model dataset is empty.")
+        st.stop()
+
+    # ── KPIs ──
+    st.subheader("📊 Key Metrics")
+    render_kpis(df)
+    st.divider()
+
+    # ── Top Models (Rating) ──
+    top_models(df)
+    st.divider()
+
+    # ── Top Models (Votes) ──
+    VRcharts(df)
+    st.divider()
+
+    # ── Organization Analysis ──
+    st.subheader("🏢 Organization Analysis")
+    Votebarchart(df)
+    st.divider()
+    firstplace(df)
+    st.divider()
+
+    # ── License Analysis ──
+    license_distribution(df)
+    st.divider()
+
+    # ── Growth Over Time ──
+    models_over_time(df)
+    st.divider()
+
+    # ── Rating Distribution ──
+    rating_distribution(df)
+    st.divider()
+
+    # ── Subset Distribution ──
+    subset_distribution(df)
+    st.divider()
+
+    # ── Raw Data Table ──
+    raw_data_table(df)
+
+with global_happiness_index:
+    st.header("😊 Global Happiness Index (GHI) 2024")
+    st.write("Source","https://www.kaggle.com/datasets/jainaru/world-happiness-report-2024-yearly-updated?select=World-happiness-report-updated_2024.csv")
+    
