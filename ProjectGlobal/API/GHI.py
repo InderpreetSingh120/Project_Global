@@ -1,36 +1,373 @@
-# API/GHI.py
-"""
-API.GHI – Global Happiness Index visualisation engine
-
-Provides utilities to load, filter and render Plotly charts for the
-World Happiness Report in a professional, theme‑consistent way.
-"""
-from pathlib import Path
 import pandas as pd
-import plotly.express as px
-import plotly.graph_objects as go
 import streamlit as st
-# ────────────────────────────────────────────────────────────────────────
-# THEME & CONSTANTS
-# ────────────────────────────────────────────────────────────────────────
+import plotly.express as px
+from pathlib import Path
+
 DATA_PATH = Path(__file__).parent / "data" / "GlobalHappienessIndex.csv"
 @st.cache_data
-def load_ghi_data() -> pd.DataFrame:
-    df = pd.read_csv(DATA_PATH)
+def load_happiness_data() -> pd.DataFrame:
+    """Load the World Happiness dataset."""
+
     if not DATA_PATH.exists():
         st.error(f"Data file missing at {DATA_PATH}")
         return pd.DataFrame()
 
-    numeric_fields = [
-        "Year", "Life Ladder", "Log GDP per capita",
-        "Social support", "Healthy life expectancy at birth",
-        "Freedom to make life choices", "Generosity",
-        "Perceptions of corruption", "Positive affect", "Negative affect"
+    df = pd.read_csv(DATA_PATH)
+
+    numeric_columns = [
+        "Life Ladder",
+        "Log GDP per capita",
+        "Social support",
+        "Healthy life expectancy at birth",
+        "Freedom to make life choices",
+        "Generosity",
+        "Perceptions of corruption",
+        "Positive affect",
+        "Negative affect",
     ]
 
-    for col in numeric_fields:
+    for col in numeric_columns:
         if col in df.columns:
             df[col] = pd.to_numeric(df[col], errors="coerce")
 
+    if "year" in df.columns:
+        df["year"] = pd.to_numeric(df["year"], errors="coerce")
+
     return df
 
+# ---------------------------------------------------------
+# 1. Happiness by country
+# ---------------------------------------------------------
+def happiness_trend(df):
+    st.subheader("🌍 Happiness Trend by Country")
+
+    countries = sorted(
+        df["Country name"].dropna().unique()
+    )
+
+    if not countries:
+        st.warning("No country data available.")
+        return
+
+    # Default to India
+    default_index = (
+        countries.index("India")
+        if "India" in countries
+        else 0
+    )
+
+    selected_country = st.selectbox(
+        "Select a country",
+        countries,
+        index=default_index,
+        key="happiness_country",
+    )
+
+    country_trend = (
+        df[df["Country name"] == selected_country]
+        .dropna(subset=["year", "Life Ladder"])
+        .sort_values("year")
+    )
+
+    if country_trend.empty:
+        st.warning(
+            f"No happiness data available for {selected_country}."
+        )
+        return
+
+    fig_country = px.line(
+        country_trend,
+        x="year",
+        y="Life Ladder",
+        markers=True,
+        labels={
+            "year": "Year",
+            "Life Ladder": "Life Ladder",
+        },
+        template="plotly_white",
+    )
+
+    fig_country.update_traces(
+        line=dict(width=3),
+        marker=dict(size=8),
+        hovertemplate=(
+            f"{selected_country}<br>"
+            "Year: %{x}<br>"
+            "Life Ladder: %{y:.2f}"
+            "<extra></extra>"
+        ),
+    )
+
+    fig_country.update_layout(
+        title=f"Life Ladder in {selected_country}",
+        title_x=0.5,
+        height=500,
+        yaxis=dict(
+            range=[0, 10],
+            gridcolor="rgba(0, 0, 0, 0.08)",
+        ),
+        xaxis=dict(
+            gridcolor="rgba(0, 0, 0, 0.08)",
+        ),
+    )
+
+    st.plotly_chart(
+        fig_country,
+        use_container_width=True,
+        theme="streamlit",
+    )
+def happiness_vs_gdp(df):
+    st.subheader("💰 Happiness vs GDP per Capita")
+
+    gdp_df = df.dropna(
+        subset=["Log GDP per capita", "Life Ladder"]
+    )
+
+    fig_gdp = px.scatter(
+        gdp_df,
+        x="Log GDP per capita",
+        y="Life Ladder",
+        color="Life Ladder",
+        hover_name="Country name",
+        hover_data={
+            "year": True,
+            "Log GDP per capita": ":.2f",
+            "Life Ladder": ":.2f",
+        },
+        color_continuous_scale="Viridis",
+        trendline="ols",
+        labels={
+            "Log GDP per capita": "Log GDP per Capita",
+            "Life Ladder": "Life Ladder",
+        },
+        template="plotly_white",
+    )
+
+    fig_gdp.update_traces(
+        marker=dict(
+            size=9,
+            opacity=0.75,
+            line=dict(width=0.5, color="white"),
+        ),
+        selector=dict(mode="markers"),
+    )
+
+    fig_gdp.update_layout(
+        title="Does Higher GDP Relate to Greater Happiness?",
+        title_x=0.5,
+        height=550,
+        yaxis=dict(
+            range=[0, 10],
+            gridcolor="rgba(0, 0, 0, 0.08)",
+        ),
+        xaxis=dict(
+            gridcolor="rgba(0, 0, 0, 0.08)",
+        ),
+        coloraxis_colorbar=dict(
+            title="Life Ladder",
+        ),
+    )
+
+    st.plotly_chart(
+        fig_gdp,
+        use_container_width=True,
+        theme="streamlit",
+    )
+
+
+def happiness_vs_factor(df):
+    st.subheader("🤝 Factors Associated with Happiness")
+
+    factor = st.selectbox(
+        "Select a factor",
+        [
+            "Social support",
+            "Freedom to make life choices",
+        ],
+        key="happiness_factor",
+    )
+
+    factor_df = df.dropna(
+        subset=[factor, "Life Ladder"]
+    )
+
+    fig_factor = px.scatter(
+        factor_df,
+        x=factor,
+        y="Life Ladder",
+        color="Life Ladder",
+        hover_name="Country name",
+        hover_data={
+            "year": True,
+            factor: ":.2f",
+            "Life Ladder": ":.2f",
+        },
+        color_continuous_scale="Blues",
+        trendline="ols",
+        labels={
+            factor: factor,
+            "Life Ladder": "Life Ladder",
+        },
+        template="plotly_white",
+    )
+
+    fig_factor.update_traces(
+        marker=dict(
+            size=9,
+            opacity=0.75,
+            line=dict(width=0.5, color="white"),
+        ),
+        selector=dict(mode="markers"),
+    )
+
+    fig_factor.update_layout(
+        title=f"Life Ladder vs {factor}",
+        title_x=0.5,
+        height=550,
+        yaxis=dict(
+            range=[0, 10],
+            gridcolor="rgba(0, 0, 0, 0.08)",
+        ),
+        xaxis=dict(
+            gridcolor="rgba(0, 0, 0, 0.08)",
+        ),
+        coloraxis_showscale=False,
+    )
+
+    st.plotly_chart(
+        fig_factor,
+        use_container_width=True,
+        theme="streamlit",
+    )
+
+
+def country_comparison(df):
+    st.subheader("📊 Country Comparison")
+
+    countries = sorted(df["Country name"].unique())
+
+    selected_countries = st.multiselect(
+        "Select 2–5 countries",
+        countries,
+        default=countries[:3],
+        max_selections=5,
+        key="comparison_countries",
+    )
+
+    comparison_columns = [
+    "Life Ladder",
+    "Log GDP per capita",
+    "Social support",
+    "Healthy life expectancy at birth",
+    "Freedom to make life choices",
+]
+
+    comparison_df = (
+        df[df["Country name"].isin(selected_countries)]
+        .groupby("Country name", as_index=False)[comparison_columns]
+        .mean()
+    )
+
+    comparison_long = comparison_df.melt(
+        id_vars="Country name",
+        value_vars=comparison_columns,
+        var_name="Metric",
+        value_name="Value",
+    )
+
+    fig_comparison = px.bar(
+        comparison_long,
+        x="Country name",
+        y="Value",
+        color="Country name",
+        facet_col="Metric",
+        facet_col_wrap=2,
+        barmode="group",
+        hover_data={
+            "Country name": True,
+            "Metric": True,
+            "Value": ":.2f",
+        },
+        labels={
+            "Country name": "Country",
+            "Value": "Average Value",
+            "Metric": "",
+        },
+        template="plotly_white",
+    )
+
+    fig_comparison.update_layout(
+        title="Average Happiness Indicators by Country",
+        title_x=0.5,
+        height=800,
+        showlegend=False,
+    )
+
+    fig_comparison.update_yaxes(matches=None)
+
+    fig_comparison.for_each_annotation(
+        lambda annotation: annotation.update(
+            text=annotation.text.split("=")[-1]
+        )
+    )
+
+    st.plotly_chart(
+        fig_comparison,
+        use_container_width=True,
+        theme="streamlit",
+    )
+
+
+def global_happiness(df):
+    st.subheader("📈 Global Happiness Over Time")
+
+    global_happiness = (
+        df.groupby("year", as_index=False)["Life Ladder"]
+        .mean()
+        .rename(columns={"Life Ladder": "Average Life Ladder"})
+    )
+
+    fig_global = px.line(
+        global_happiness,
+        x="year",
+        y="Average Life Ladder",
+        markers=True,
+        labels={
+            "year": "Year",
+            "Average Life Ladder": "Average Life Ladder",
+        },
+        template="plotly_white",
+    )
+
+    fig_global.update_traces(
+        line=dict(width=3, color="#059669"),
+        marker=dict(size=8),
+        hovertemplate=(
+            "Year: %{x}<br>"
+            "Average Life Ladder: %{y:.2f}"
+            "<extra></extra>"
+        ),
+    )
+
+    fig_global.update_layout(
+        title="Global Average Life Ladder by Year",
+        title_x=0.5,
+        height=500,
+        yaxis=dict(
+            range=[0, 10],
+            gridcolor="rgba(0, 0, 0, 0.08)",
+        ),
+        xaxis=dict(
+            dtick=2,
+            gridcolor="rgba(0, 0, 0, 0.08)",
+        ),
+    )
+
+    st.plotly_chart(
+        fig_global,
+        use_container_width=True,
+        theme="streamlit",
+    )
+def raw_data_table(df: pd.DataFrame) -> None:
+    st.subheader("📋 Raw Data")
+    st.dataframe(df, use_container_width=True, height=400)

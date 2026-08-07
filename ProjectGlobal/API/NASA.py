@@ -6,8 +6,6 @@ import os
 import streamlit as st
 
 BASE_URL = "https://api.nasa.gov/planetary/apod"
-# Relative to this file's location, not a hardcoded machine path — works
-# regardless of where the project folder lives or what OS it runs on.
 SAVE_DIR = os.path.join(os.path.dirname(__file__), "cache", "nasa")
 
 load_dotenv()
@@ -22,7 +20,7 @@ def download_apod():
     params = {"api_key": API_KEY}
 
     try:
-        response = requests.get(BASE_URL, params=params, timeout=10)
+        response = requests.get(BASE_URL, params=params, timeout=30)
         response.raise_for_status()
         return response.json()
     except requests.RequestException as e:
@@ -62,9 +60,7 @@ def load_apod(file_date: str):
         return json.load(f)
 
 
-@st.cache_data(ttl=86400)  # 24h. This is what stops get_apod() from re-firing
-# on every unrelated rerun (typing in Weather, clicking a button anywhere, etc.)
-# — Streamlit short-circuits here before the function body runs again at all.
+@st.cache_data(ttl=86400)  #24h
 def get_apod():
     today = date.today().isoformat()
 
@@ -80,4 +76,4 @@ def get_apod():
     if data:  # don't cache a failed/empty fetch as if it were a real result
         save_apod(data)
 
-    return data  # None here is expected on failure — app.py already checks for it
+    return data  

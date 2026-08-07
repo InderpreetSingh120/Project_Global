@@ -27,10 +27,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="auto",
 )
-
 # ── Load Data ──
-# get_apod() and get_news() are already @st.cache_data'd inside NASA.py / News.py
-# (24h TTL) — no need to wrap them again here.
 nasadata = get_apod()
 newsdata = get_news()
 
@@ -43,6 +40,7 @@ if "selected_location" not in st.session_state:
     st.session_state.selected_location = None
 if "last_weather_query" not in st.session_state:
     st.session_state.last_weather_query = None
+
 # ── Tabs ──
 st.title("Project Global")
 Home, News_tab, weather, speedtest_tab, nasa, ai_model, global_happiness_index = st.tabs(
@@ -437,8 +435,8 @@ with ai_model:
             VRcharts,
             Votebarchart,
             firstplace,
-            license_distribution,
-            models_over_time,
+            license_vs_rating,
+            leaderboard_activity,
             rating_distribution,
             subset_distribution,
             raw_data_table,
@@ -448,16 +446,15 @@ with ai_model:
             "Could not import `ai_model` module."
         )
         st.stop()
-
     try:
         df = load_ai_data()
     except FileNotFoundError:
         st.error(
             "AI model dataset not found.\n\n"
-            "Place your cleaned CSV at `data/ai_model_arena.csv` "
-            "or update the path in `API/ai_model.py`."
+            "Contact Administrator"
         )
         st.stop()
+    #for other errors during data loading
     except Exception as e:
         st.error(f"Failed to load AI model data: {str(e)}")
         st.stop()
@@ -487,11 +484,11 @@ with ai_model:
     st.divider()
 
     # ── License Analysis ──
-    license_distribution(df)
+    license_vs_rating(df)
     st.divider()
 
     # ── Growth Over Time ──
-    models_over_time(df)
+    leaderboard_activity(df)
     st.divider()
 
     # ── Rating Distribution ──
@@ -508,4 +505,47 @@ with ai_model:
 with global_happiness_index:
     st.header("😊 Global Happiness Index (GHI) 2024")
     st.write("Source","https://www.kaggle.com/datasets/jainaru/world-happiness-report-2024-yearly-updated?select=World-happiness-report-updated_2024.csv")
-    
+    # ── Load Data ──
+    try:
+        from API.GHI import (
+            load_happiness_data,
+            happiness_trend,
+            happiness_vs_gdp,
+            happiness_vs_factor,
+            country_comparison,
+            global_happiness,
+            raw_data_table,
+        )
+    except ImportError:
+        st.error(
+            "Could not import `GHI` module."
+        )
+        st.stop()
+    try:
+        df = load_happiness_data()
+    except FileNotFoundError:
+        st.error(
+            "Global Happiness Index dataset not found.\n\n"
+            "Contact Administrator"
+        )
+        st.stop()
+    #for other errors during data loading
+    except Exception as e:
+        st.error(f"Failed to load Global Happiness Index data: {str(e)}")
+        st.stop()
+
+    if df is None or df.empty:
+        st.warning("The Global Happiness Index dataset is empty.")
+        st.stop()
+
+    happiness_trend(df)
+    st.divider()
+    happiness_vs_gdp(df)
+    st.divider()
+    happiness_vs_factor(df)
+    st.divider()
+    country_comparison(df)
+    st.divider()
+    global_happiness(df)
+    st.divider()
+    raw_data_table(df)

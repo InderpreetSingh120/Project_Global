@@ -34,7 +34,7 @@ def load_ai_data() -> pd.DataFrame:
 #  KPIs
 # ──────────────────────────────────────────────
 def render_kpis(df: pd.DataFrame) -> None:
-    """Render top-level KPI cards."""
+    #Render top-level KPI cards
     total_models = len(df)
     total_orgs = df["organization"].nunique() 
     avg_rating = df["rating"].mean() 
@@ -42,7 +42,7 @@ def render_kpis(df: pd.DataFrame) -> None:
     lowest_rating = df["rating"].min() 
     latest_date = df["leaderboard_publish_date"].max()
     latest_date_str = latest_date.strftime("%Y-%m-%d")
-#columns for KPIs
+    #columns for KPIs
     col1, col2, col3, col4, col5, col6 = st.columns(6)
     col1.metric("Total Models", f"{total_models}")
     col2.metric("Total Organizations", f"{total_orgs}")
@@ -50,8 +50,6 @@ def render_kpis(df: pd.DataFrame) -> None:
     col4.metric("Highest Rating", f"{highest_rating:.2f}".rstrip("0").rstrip("."))
     col5.metric("Lowest Rating", f"{lowest_rating:.2f}".rstrip("0").rstrip("."))
     col6.metric("Latest Leaderboard Date", latest_date_str)
-
-
 # ──────────────────────────────────────────────
 #  1. Top Models by tree, donut, bar
 # ──────────────────────────────────────────────
@@ -92,17 +90,12 @@ def VRcharts(df: pd.DataFrame) -> None:
 #  3. Total votes bar chart
 # ──────────────────────────────────────────────
 def Votebarchart(df: pd.DataFrame) -> None:
-    st.subheader("🏢 Top 20 AI Models by Vote Count")
-    chart_df = (df.groupby(["model_name", "organization"], as_index=False).agg(vote_count=("vote_count", "max"),rating=("rating", "mean"),rank=("rank", "min"),).dropna(subset=["vote_count"]).nlargest(20, "vote_count").sort_values("vote_count", ascending=True))
-    barfig = px.bar(chart_df,x="vote_count",y="model_name",orientation="h",color="organization",text="vote_count",custom_data=["organization", "rating", "rank"])
-    barfig.update_traces(
-    texttemplate="%{text:,.0f}",
-    textposition="outside",
-    marker=dict(line=dict(width=0)),
-    hovertemplate=("<b>%{y}</b><br><br>""🗳️ Votes: %{x:,.0f}<br>""🏢 Organization: %{customdata[0]}<br>""⭐ Rating: %{customdata[1]:.2f}<br>""🏆 Rank: %{customdata[2]}<extra></extra>"),)
-    median_votes = chart_df["vote_count"].median()
-    barfig.add_vline(x=median_votes,line_dash="dash",line_width=2,annotation_text="Median",)
-    barfig.update_layout(title=None, xaxis=dict(title="Number of Votes",tickformat="~s",showgrid=True,gridcolor="rgba(128,128,128,0.08)",zeroline=False,),yaxis=dict(title=None,categoryorder="total ascending",tickfont=dict(size=12),),legend=dict(title="Organization",orientation="v",yanchor="middle",y=0.5,xanchor="left",x=1.02,),coloraxis_showscale=False,height=650,margin=dict(l=260,r=20,t=20,b=20,),plot_bgcolor="rgba(0,0,0,0)",paper_bgcolor="rgba(0,0,0,0)",)
+    st.subheader("Top 20 AI Models by Vote Count")
+    chart_df = (df.groupby(["model_name", "organization"], as_index=False).agg(vote_count=("vote_count", "max"),rating=("rating", "mean"),rank=("rank", "min"),).dropna(subset=["vote_count"]).nlargest(20, "vote_count").sort_values("vote_count"))
+    barfig = px.bar(chart_df,x="vote_count",y="model_name",orientation="h",color="organization",text="vote_count",hover_data={"organization": True,"rating": ":.2f","rank": True,"vote_count": ":,",},labels={"vote_count": "Votes","model_name": "Model","organization": "Organization",},)
+    barfig.update_traces(texttemplate="%{text:,.0f}",textposition="outside",)
+    barfig.update_layout(height=600,yaxis=dict(categoryorder="total ascending"),legend_title_text="Organization",  )
+    barfig.add_vline(x=chart_df["vote_count"].median(),line_dash="dash",annotation_text="Median",)
     st.plotly_chart(barfig, use_container_width=True, theme="streamlit")
 # ──────────────────────────────────────────────
 #  4. Who's held #1 (step chart)
@@ -116,138 +109,74 @@ def firstplace(df: pd.DataFrame) -> None:
     num_models = leaders["model_name"].nunique()
     st.write(f"**{num_models} different models have held the #1 position on the text leaderboard.**")
 # ──────────────────────────────────────────────
-#  6. License Distribution
+#  5. License vs Rating
 # ──────────────────────────────────────────────
-def license_distribution(df: pd.DataFrame) -> None:
-    st.subheader("📜 License Distribution")
+def license_vs_rating(df: pd.DataFrame) -> None:
+    st.subheader("📜 License vs. Rating")
+    chart_df = (df.dropna(subset=["license", "rating"]).copy())
+    counts = chart_df["license"].value_counts()
+    chart_df = chart_df[chart_df["license"].isin(counts[counts >= 5].index)]
+    fig = px.box(chart_df,x="license",y="rating",color="license",points="outliers",labels={"license": "License","rating": "Arena Rating",},)
+    fig.update_layout(xaxis_tickangle=-25,showlegend=False,)
+    st.plotly_chart(fig, use_container_width=True)
+# ──────────────────────────────────────────────
+#  6. Models Added Over Time
+# ──────────────────────────────────────────────
+def leaderboard_activity(df: pd.DataFrame) -> None:
+    st.subheader("📅 Leaderboard Activity Over Time")
 
-    license_counts = df["license"].value_counts().reset_index()
-    license_counts.columns = ["license", "count"]
-
-    # Replace NaN / empty with "Unknown"
-    license_counts["license"] = license_counts["license"].fillna("Unknown").replace(
-        "", "Unknown"
+    chart_df = (
+        df.dropna(subset=["leaderboard_publish_date"])
+        .copy()
     )
 
-    # Use a pie chart if categories ≤ 8, else bar
-    n_cats = len(license_counts)
+    chart_df["month"] = (
+        chart_df["leaderboard_publish_date"]
+        .dt.to_period("M")
+        .dt.to_timestamp()
+    )
 
-    if n_cats <= 8:
-        fig = px.pie(
-            license_counts,
-            names="license",
-            values="count",
-            title="License Distribution",
-            hole=0.4,
-            color_discrete_sequence=px.colors.qualitative.Set3,
-        )
-    else:
-        fig = px.bar(
-            license_counts,
-            x="license",
-            y="count",
-            title="License Distribution",
-            labels={"license": "License", "count": "Count"},
-            color="count",
-            color_continuous_scale="Blues",
-        )
-        fig.update_layout(xaxis_tickangle=-45)
-
-    st.plotly_chart(fig, use_container_width=True)
-
-
-# ──────────────────────────────────────────────
-#  7. Models Added Over Time
-# ──────────────────────────────────────────────
-def models_over_time(df: pd.DataFrame) -> None:
-    st.subheader("📅 Models Added Over Time")
-
-    df_dates = df.dropna(subset=["leaderboard_publish_date"]).copy()
-
-    if df_dates.empty:
-        st.warning("No valid date data available.")
-        return
-
-    df_dates["year_month"] = df_dates["leaderboard_publish_date"].dt.to_period("M")
-    monthly_counts = df_dates.groupby("year_month").size().reset_index(name="models_added")
-    monthly_counts["year_month"] = monthly_counts["year_month"].astype(str)
+    monthly = (
+        chart_df.groupby("month")
+        .size()
+        .reset_index(name="Models")
+    )
 
     fig = px.line(
-        monthly_counts,
-        x="year_month",
-        y="models_added",
-        title="Models Added Per Month",
-        labels={"year_month": "Month", "models_added": "Models Added"},
+        monthly,
+        x="month",
+        y="Models",
         markers=True,
+        labels={"month": "Month","Models": "Leaderboard Entries",},)
+    fig.update_traces(
+        line_width=3,
+        marker_size=7,
     )
-    fig.update_layout(xaxis_tickangle=-45)
-    st.plotly_chart(fig, use_container_width=True)
-
-
+    st.plotly_chart(fig, use_container_width=True, theme="streamlit")
 # ──────────────────────────────────────────────
-#  8. Rating Distribution (Histogram)
+#  7. Rating Distribution (Histogram)
 # ──────────────────────────────────────────────
 def rating_distribution(df: pd.DataFrame) -> None:
     st.subheader("📊 Rating Distribution")
-
-    fig = px.histogram(
-        df,
-        x="rating",
-        nbins=30,
-        title="Distribution of Model Ratings",
-        labels={"rating": "Rating"},
-        color_discrete_sequence=["#4C72B0"],
-    )
-    st.plotly_chart(fig, use_container_width=True)
-
-
+    fig = px.histogram(df,x="rating",nbins=25,color_discrete_sequence=["#3B82F6"],labels={"rating": "Arena Rating"},)
+    fig.update_traces(hovertemplate=("<b>Rating Range</b><br>""%{x}<br>""Models: %{y}<extra></extra>"))
+    fig.update_layout(bargap=0.05)
+    st.plotly_chart(fig, use_container_width=True, theme="streamlit")
 # ──────────────────────────────────────────────
-#  10. Subset Distribution
+#  8. Subset Distribution
 # ──────────────────────────────────────────────
 def subset_distribution(df: pd.DataFrame) -> None:
     st.subheader("📂 Subset Distribution")
-
-    if "subset" not in df.columns:
-        st.info("No 'subset' column in the dataset.")
-        return
-
-    subset_counts = df["subset"].value_counts().reset_index()
-    subset_counts.columns = ["subset", "count"]
-
-    # If only one unique value, skip the chart
-    if len(subset_counts) <= 1:
-        st.info(
-            f"Only one subset value found: '{subset_counts.iloc[0]['subset']}'. "
-            "Skipping distribution chart."
-        )
-        return
-
-    n_cats = len(subset_counts)
-
-    if n_cats <= 8:
-        fig = px.pie(
-            subset_counts,
-            names="subset",
-            values="count",
-            title="Subset Distribution",
-            hole=0.4,
-            color_discrete_sequence=px.colors.qualitative.Set2,
-        )
-    else:
-        fig = px.bar(
-            subset_counts,
-            x="subset",
-            y="count",
-            title="Subset Distribution",
-            labels={"subset": "Subset", "count": "Count"},
-            color="count",
-            color_continuous_scale="Blues",
-        )
-        fig.update_layout(xaxis_tickangle=-45)
-
-    st.plotly_chart(fig, use_container_width=True)
-
-
+    donotf,barf = st.tabs(["Donut Chart", "Bar Chart"])
+    with donotf:
+        subset_counts = (df["subset"].value_counts().rename_axis("Subset").reset_index(name="Models"))
+        donotfig = px.pie(subset_counts,names="Subset",values="Models",hole=0.55,)
+        donotfig.update_traces(textinfo="percent+label",hovertemplate=("<b>%{label}</b><br>""Models: %{value}<br>""Share: %{percent}<extra></extra>"))
+        st.plotly_chart(donotfig, use_container_width=True, theme="streamlit")
+    with barf:
+        barfig = px.bar(subset_counts.sort_values("Models"),x="Models",y="Subset",orientation="h",color="Models",text="Models",)
+        barfig.update_traces(textposition="outside")
+        st.plotly_chart(barfig, use_container_width=True, theme="streamlit")
 # ──────────────────────────────────────────────
 #  Raw Data Table
 # ──────────────────────────────────────────────
