@@ -5,18 +5,15 @@ from typing import Any, Callable, Dict, List, Literal, Optional
 import streamlit as st
 from dotenv import load_dotenv
 
-# Robust import for google-genai (handles namespace conflicts on Streamlit Cloud)
+# Gemini is optional because another configured provider can serve as a fallback.
+GenAIClient: Any = None
+types: Any = None
 try:
-    from google.genai import Client as GenAIClient, types
-except ImportError:
-    try:
-        import google.genai as genai
-        from google.genai import types
-        GenAIClient = genai.Client
-    except ImportError:
-        from google import genai
-        from google.genai import types
-        GenAIClient = genai.Client
+    from google import genai
+    from google.genai import types
+    GenAIClient = genai.Client
+except (ImportError, AttributeError):
+    pass
 
 # OpenRouter uses the OpenAI SDK framework to connect
 try:
@@ -98,7 +95,7 @@ _client = (
             timeout=PROVIDER_TIMEOUT * 1000
         )
     )
-    if GEMINI_API_KEY
+    if GEMINI_API_KEY and GenAIClient is not None and types is not None
     else None
 )
 
