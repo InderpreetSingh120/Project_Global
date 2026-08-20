@@ -2,6 +2,11 @@ streamlit
 plotly
 requests
 pandas
-speedtest-cli
 python-dotenv
+google-genai
+openai
+cohere
 statsmodels
+sentence-transformers
+tqdm
+chromadb
