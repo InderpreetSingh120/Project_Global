@@ -1,3 +1,1 @@
-# System packages for Streamlit Cloud
-# Usually not needed for pure Python packages, but included for completeness
 git
