@@ -1,0 +1,58 @@
+{
+    "status": "ok",
+    "totalResults": 34,
+    "articles": [
+        {
+            "source": {
+                "id": "the-washington-post",
+                "name": "The Washington Post"
+            },
+            "author": "Aoife Walsh, Victoria Craw",
+            "title": "Man who dated Hayden Panettiere called 911 from apartment, police report says - The Washington Post",
+            "description": "Brian Hickerson became \"very emotional” after the actor was declared dead, according to an incident report.",
+            "url": "https://www.washingtonpost.com/entertainment/2026/08/19/man-who-dated-hayden-panettiere-called-911-apartment-police-report-says/",
+            "urlToImage": "https://www.washingtonpost.com/wp-apps/imrs.php?src=https://cloudfront-us-east-1.images.arcpublishing.com/wapo/GOUOM5U2JUI7DHGEFXE3I3RNLQ.jpg&w=1440",
+            "publishedAt": "2026-08-19T12:43:57Z",
+            "content": "The man Hayden Panettiere described in her memoir as her former partner and abuser, Brian Hickerson, was with her in the apartment where she died Sunday, according to a police report, and it was he a… [+29 chars]"
+        },
+        {
+            "source": {
+                "id": "fox-news",
+                "name": "Fox News"
+            },
+            "author": null,
+            "title": "Popular daily drinking habit could nearly triple risk of deadly cancer, major study finds - Fox News",
+            "description": "Mass General Brigham research links one daily sugary drink to nearly three times higher stomach cancer risk, with fructose identified as a key factor.",
+            "url": "https://www.foxnews.com/health/popular-daily-drinking-habit-nearly-triple-risk-deadly-cancer-major-study-finds",
+            "urlToImage": "https://static.foxnews.com/foxnews.com/content/uploads/2026/08/older-woman-drinking-soda.jpg",
+            "publishedAt": "2026-08-19T11:00:23Z",
+            "content": "Consuming a sugary drink a day may significantly raise the risk of developing stomach cancer, according to new research from Mass General Brigham.\r\nAfter accounting for other risk factors, the resear… [+3003 chars]"
+        },
+        {
+            "source": {
+                "id": null,
+                "name": "Yahoo Entertainment"
+            },
+            "author": "Brian Sozzi",
+            "title": "Target delivers earnings beat, CEO 'encouraged' by turnaround traction - Yahoo Finance",
+            "description": "Target has moved quickly to rewrite its merchandising wrongs to improve traffic to its stores and online.",
+            "url": "https://finance.yahoo.com/markets/stocks/article/target-delivers-earnings-beat-ceo-encouraged-by-turnaround-traction-103412473.html",
+            "urlToImage": "https://s.yimg.com/lo/mysterio/api/030CB03D635A024037B204BD150B87B15F89FEE2342D130946F976543508A33F/subgraphmysterio/resizefill_w1200_h800;quality_80;format_webp/https:%2F%2Fd29szjachogqwa.cloudfront.net%2Fimages%2F2026-05%2F2a148977-9c73-422f-9ea5-1946644a1ec4",
+            "publishedAt": "2026-08-19T10:34:12Z",
+            "content": "After chopping prices and overhauling its merchandise department, retailer Target (TGT) did its part for the second straight quarter to signal that its worst days in 2024 and 2025 are in the rearview… [+4087 chars]"
+        },
+        {
+            "source": {
+                "id": "associated-press",
+                "name": "Associated Press"
+            },
+            "author": "Hyung-Jin Kim",
+            "title": "South Korean and US militaries shorten drills by about half after Trump ordered a reduction - AP News",
+            "description": "The South Korean and U.S. militaries have confirmed Wednesday they were sharply scaling back major joint drills. South Korea’s military said Wednesday the drills with the U.S. would end Friday, not Aug. 27 as initially planned. It says the allies have also ag…",
+            "url": "https://apnews.com/article/korea-us-military-drills-313e01e4ee305b4c9b1b8bf12643fb17",
+            "urlToImage": "https://dims.apnews.com/dims4/default/3020cb1/2147483647/strip/true/crop/8640x5757+0+1/resize/980x653!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2F99%2F14%2F3d94e4ab9e924d5404ee7608e7f0%2Feca3b509211d4934aa758c38b09ed7f9",
+            "publishedAt": "2026-08-19T09:58:00Z",
+            "content": "SEOUL, South Korea (AP) The South Korean and U.S. militaries confirmed Wednesday they were significantly scaling back major joint drills, days after President Donald Trump ordered the reduction in an… [+6472 chars]"
+        }
+    ]
+}

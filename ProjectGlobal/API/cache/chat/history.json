@@ -1,0 +1,18 @@
+[
+    {
+        "role": "user",
+        "text": "what is the capital of india"
+    },
+    {
+        "role": "model",
+        "text": "The capital of India is **New Delhi**."
+    },
+    {
+        "role": "user",
+        "text": "what is the biggest dataset used "
+    },
+    {
+        "role": "model",
+        "text": "The biggest dataset used in the project is the **AI Model Arena** dataset. \n\nIt contains roughly **97,000 records** covering 461 AI language and multimodal models from 66 organizations across five competition categories from mid-2023 to the present. \n\nFor comparison, the other primary structured dataset, the **Global Happiness Index (GHI)**, contains about 2,360 records spanning 165 countries from 2005 to 2023."
+    }
+]

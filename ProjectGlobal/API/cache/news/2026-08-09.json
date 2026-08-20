@@ -1,0 +1,71 @@
+{
+    "status": "ok",
+    "totalResults": 38,
+    "articles": [
+        {
+            "source": {
+                "id": "politico",
+                "name": "Politico"
+            },
+            "author": "Jordain Carney",
+            "title": "Senate eyes the exit after GOP-Trump deal - Politico",
+            "description": "The Senate is expected to finish work on a government funding bill and Todd Blanche's attorney general nomination.",
+            "url": "https://www.politico.com/live-updates/2026/08/07/congress/senate-trump-votes-01030007",
+            "urlToImage": "https://www.politico.com/dims4/default/67a2544/2147483647/resize/1200x/quality/90/?url=https%3A%2F%2Fstatic.politico.com%2F1c%2F75%2Fe58b22e347c7bbcc7d355d3b59ac%2Fcongress-blanche-1148.jpg",
+            "publishedAt": "2026-08-08T03:53:43Z",
+            "content": null
+        },
+        {
+            "source": {
+                "id": "the-wall-street-journal",
+                "name": "The Wall Street Journal"
+            },
+            "author": "Marcus Weisgerber",
+            "title": "Hegseth Strips Security Clearance From Biden’s Air Force Secretary - WSJ",
+            "description": "Frank Kendall, accused of leaking sensitive information, is latest former defense official to lose access to classified information",
+            "url": "https://www.wsj.com/politics/hegseth-strips-security-clearance-from-bidens-air-force-secretary-565eb26f",
+            "urlToImage": "https://images.wsj.net/im-45575497/social",
+            "publishedAt": "2026-08-08T01:47:00Z",
+            "content": "Defense Secretary Pete Hegseth revoked the security clearance of a former high-ranking Biden administration defense official for allegedly leaking classified information about \r\nAir Force One.Frank K… [+562 chars]"
+        },
+        {
+            "source": {
+                "id": "al-jazeera-english",
+                "name": "Al Jazeera English"
+            },
+            "author": "Al Jazeera",
+            "title": "De la Espriella sworn in as Colombia’s leader, vows armed group crackdown - Al Jazeera",
+            "description": "The new president, who replaces leftist Gustavo Petro, continues the rightward political shift in Latin America.",
+            "url": "https://www.aljazeera.com/news/2026/8/8/de-la-espriella-sworn-in-as-colombia-leader-vows-crackdown-on-armed-groups",
+            "urlToImage": "https://www.aljazeera.com/wp-content/uploads/2026/08/AP26219776301431-1786147020.jpg?resize=1920%2C1440",
+            "publishedAt": "2026-08-08T00:40:22Z",
+            "content": "Right-wing lawyer Abelardo de la Espriella has been sworn in as Colombias president after winning a run-off election on promises to crack down on armed groups, cut government spending by as much as 4… [+5412 chars]"
+        },
+        {
+            "source": {
+                "id": "associated-press",
+                "name": "Associated Press"
+            },
+            "author": "Darlene Superville, Michael Kunzelman",
+            "title": "Appeals court rules Trump can’t build White House ballroom without congressional approval - AP News",
+            "description": "A federal appeals court has ruled that President Donald Trump’s administration must stop construction of the $400 million White House ballroom because Congress has not approved the project. Trump blasted the decision Friday as “unjust” while vowing to appeal …",
+            "url": "https://apnews.com/article/trump-ballroom-court-ruling-1528247275ec6103da892d271d4ee883",
+            "urlToImage": "https://dims.apnews.com/dims4/default/29144bb/2147483647/strip/true/crop/8192x5459+0+3/resize/980x653!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2F55%2Ffc%2F830a6793ff5a8e3299e6be3ed356%2F4d021eb0047e4efd946a8c4eaea6840f",
+            "publishedAt": "2026-08-08T00:02:00Z",
+            "content": "WASHINGTON (AP) A divided federal appeals court ruled Friday that President Donald Trumps administration must stop construction of the $400 million White House ballroom because Congress has not appro… [+7251 chars]"
+        },
+        {
+            "source": {
+                "id": "the-washington-post",
+                "name": "The Washington Post"
+            },
+            "author": "Jeremy Roebuck, Theodoric Meyer",
+            "title": "Cassidy backs Blanche for attorney general, appearing to clear way for confirmation - The Washington Post",
+            "description": "The Senate could hold the final vote on President Donald Trump’s pick to lead the Justice Department as soon as Friday.",
+            "url": "https://www.washingtonpost.com/national-security/2026/08/07/todd-blanches-ag-nomination-loses-another-critical-gop-vote/",
+            "urlToImage": "https://www.washingtonpost.com/wp-apps/imrs.php?src=https://arc-anglerfish-washpost-prod-washpost.s3.amazonaws.com/public/UPIPTYMGM43P37N6RDOAVYWSLI_size-normalized.jpg&w=1440",
+            "publishedAt": "2026-08-07T23:45:08Z",
+            "content": "Sen. Bill Cassidy (R-Louisiana) said Friday that he will vote to confirm Todd Blanche as attorney general, giving President Donald Trumps pick to lead the Justice Department the last expected vote he… [+40 chars]"
+        }
+    ]
+}

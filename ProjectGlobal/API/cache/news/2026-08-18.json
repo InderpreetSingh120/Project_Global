@@ -1,0 +1,71 @@
+{
+    "status": "ok",
+    "totalResults": 38,
+    "articles": [
+        {
+            "source": {
+                "id": "associated-press",
+                "name": "Associated Press"
+            },
+            "author": null,
+            "title": "Hayden Panettiere, who starred in the television series ‘Heroes’ and ‘Nashville,’ dies at 36 - AP News",
+            "description": "Hayden Panettiere has died at age 36. She starred in television series including “Heroes” and “Nashville.” Panettiere’s father, Skip, announced the actor’s death in a statement provided to ABC News Sunday. No cause of death was announced, and a publicist did …",
+            "url": "https://apnews.com/article/hayden-panettiere-dies-1d660d3989916c3fa00421d05e4d78e7",
+            "urlToImage": "https://dims.apnews.com/dims4/default/f240f27/2147483647/strip/true/crop/4856x3236+72+0/resize/980x653!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2F76%2F99%2F749aaaefa744a78aa85776a9e409%2Ff7f6a4c79162414ebeac33fd1b8d5b8d",
+            "publishedAt": "2026-08-17T03:43:00Z",
+            "content": "LOS ANGELES (AP) Hayden Panettiere, star of popular television series including Heroes and Nashville, has died. She was 36.\r\nPanettieres father, Skip, announced the actors death in a statement provid… [+1029 chars]"
+        },
+        {
+            "source": {
+                "id": null,
+                "name": "Rottentomatoes.com"
+            },
+            "author": "Erik Childress",
+            "title": "Weekend Box Office: Spider-Man: Brand New Day Crosses $2 Billion Worldwide - Rotten Tomatoes",
+            "description": "Spider-Man scored the second-best third weekend of all time with $70 million, besting 'Avatar' and its first sequel.",
+            "url": "http://editorial.rottentomatoes.com/article/weekend-box-office-spider-man-brand-new-day-week-3/",
+            "urlToImage": "https://editorial.rottentomatoes.com/wp-content/uploads/2026/08/Spider-Man_Brand_New_Day_BO3-Rep.jpg?w=600",
+            "publishedAt": "2026-08-17T03:07:40Z",
+            "content": "Another week, another victory for Spider-Man. Another week where The Odyssey held back a pack of new competitors, which makes for an interesting line about this month. Brand New Day technically opene… [+12762 chars]"
+        },
+        {
+            "source": {
+                "id": "associated-press",
+                "name": "Associated Press"
+            },
+            "author": "Firdia Lisnawati",
+            "title": "Rescuers in Indonesia recover 6 more bodies in earthquake aftermath, raising death toll to 53 - AP News",
+            "description": "Rescue teams in eastern Indonesia recovered six more bodies a day after a magnitude 7.7 earthquake. Authorities said Sunday that those bodies raised the death toll to 53. Meanwhile, many of the thousands of displaced people spent the night outdoors in fear of…",
+            "url": "https://apnews.com/article/indonesia-flores-earthquake-landslide-bf1d024bdec7727094f8dc73d7dd5e34",
+            "urlToImage": "https://dims.apnews.com/dims4/default/e3bc282/2147483647/strip/true/crop/1440x960+0+0/resize/980x653!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2F6c%2F9d%2Ff5fe67df2d17e35de080ee393adb%2F3f0f332872cd4f1b83bf9e4349c572cc",
+            "publishedAt": "2026-08-17T03:03:00Z",
+            "content": "RUTENG, Indonesia (AP) Rescue teams in eastern Indonesia recovered six more bodies Sunday, a day after a magnitude 7.7 earthquake, raising the death toll to 53, authorities said, as many of the thous… [+2973 chars]"
+        },
+        {
+            "source": {
+                "id": null,
+                "name": "NBCSports.com"
+            },
+            "author": "Charean Williams",
+            "title": "Von Miller agrees to deal with Cowboys - nbcsports.com",
+            "description": "Miller finally gets to play at home, having grown up in DeSoto, Texas, 24 miles from AT&T Stadium.",
+            "url": "https://www.nbcsports.com/nfl/profootballtalk/rumor-mill/news/von-miller-agrees-to-deal-with-cowboys",
+            "urlToImage": "https://nbcsports.brightspotcdn.com/dims4/default/c6bf3c9/2147483647/strip/true/crop/8001x4501+0+0/resize/1440x810!/quality/90/?url=https%3A%2F%2Fnbc-sports-production-nbc-sports.s3.us-east-1.amazonaws.com%2Fbrightspot%2F57%2Ff1%2F8d612dbb44929f22c082b9c02d6f%2Fhttps-api-imagn.com%2Frest%2Fdownload%2FimageID%3D21586984",
+            "publishedAt": "2026-08-17T02:37:30Z",
+            "content": "Von Miller posted a photo of himself in a Cowboys jersey with a Shhh emoji last month. He either knew something or spoke it into existence.\r\nMiller has agreed to terms with the Cowboys, Adam Schefter… [+744 chars]"
+        },
+        {
+            "source": {
+                "id": null,
+                "name": "Deadline"
+            },
+            "author": "Katie Campione",
+            "title": "‘Lanterns’ Star Kyle Chandler Weighs In On Premiere Twist That Sets In Motion “The Whole Mystery” Of HBO Series - Deadline",
+            "description": "The series premiere introduced audiences to Kyle Chandler as the legendary Lantern Hal Jordan and his trainee John Stewart (Aaron Pierre).",
+            "url": "http://deadline.com/2026/08/lanterns-premiere-twist-hal-jordan-kyle-chandler-interview-1237042293/",
+            "urlToImage": "https://deadline.com/wp-content/uploads/2026/08/kyle-chandler-garret-dillahunt.jpg?w=1024",
+            "publishedAt": "2026-08-17T02:15:00Z",
+            "content": "SPOILER ALERT! This post contains details from the premiere of HBO‘s Lanterns.\r\nAll is not what it seems in HBO’s Lanterns.\r\nThe series premiered Sunday night, introducing audiences to Kyle Chandler … [+1970 chars]"
+        }
+    ]
+}

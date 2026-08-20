@@ -1,0 +1,58 @@
+{
+    "status": "ok",
+    "totalResults": 34,
+    "articles": [
+        {
+            "source": {
+                "id": "espn",
+                "name": "ESPN"
+            },
+            "author": null,
+            "title": "Gray's buzzer 3s lift Aces over Fever after Clark's miscues - ESPN",
+            "description": "Chelsea Gray made two buzzer-beating 3-pointers after Caitlin Clark's uncharacteristic mistakes, the first to force overtime and the second to give the Aces a victory over the Fever on Thursday night.",
+            "url": "https://www.espn.com/wnba/story/_/id/49550041/gray-buzzer-3s-lift-aces-fever-clark-miscues",
+            "urlToImage": "https://a.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0807%2Fr1698678_1296x729_16%2D9.jpg",
+            "publishedAt": "2026-08-07T03:28:00Z",
+            "content": "Aug 6, 2026, 11:28 PM ET\r\nINDIANAPOLIS -- Chelsea Gray made two buzzer-beating 3-pointers after Caitlin Clark's uncharacteristic mistakes, the first to force overtime and the second to give the defen… [+3405 chars]"
+        },
+        {
+            "source": {
+                "id": null,
+                "name": "BBC News"
+            },
+            "author": null,
+            "title": "Spokane wildfire arson suspect waited for dry, windy day to start blaze, police say - BBC",
+            "description": "Aaron Farinacci is accused of setting the Old Trails Fire, the largest of three burning around the city that have destroyed hundreds of buildings.",
+            "url": "https://www.bbc.com/news/articles/cy0j5nyxk68o",
+            "urlToImage": "https://ichef.bbci.co.uk/news/1024/branded_news/fb2f/live/e0a08950-91ed-11f1-a0de-f96f35508df6.jpg",
+            "publishedAt": "2026-08-07T00:54:58Z",
+            "content": "A man arrested on suspicion of starting a large wildfire in Spokane, Washington told investigators he waited for a hot, dry, and windy day to light the blaze, according to newly released court docume… [+3 chars]"
+        },
+        {
+            "source": {
+                "id": null,
+                "name": "NBCSports.com"
+            },
+            "author": "Mike Florio",
+            "title": "Lions held firm at a bump above Bijan Robinson for Jahmyr Gibbs - NBC Sports",
+            "description": "It's clear that both Falcons running back Bijan Robinson and Lions running back Jahmyr Gibbs wanted to get to $25 million in new-money APY on their new contracts.",
+            "url": "https://www.nbcsports.com/nfl/profootballtalk/rumor-mill/news/lions-held-firm-at-a-bump-above-bijan-robinson-for-jahmyr-gibbs",
+            "urlToImage": "https://nbcsports.brightspotcdn.com/dims4/default/7cc3829/2147483647/strip/true/crop/3709x2086+0+0/resize/1440x810!/quality/90/?url=https%3A%2F%2Fnbc-sports-production-nbc-sports.s3.us-east-1.amazonaws.com%2Fbrightspot%2F96%2Fff%2F6e34397948fea64dd0187d9b4b0c%2Fhttps-cdn1-agency-thomsonreuters-com-download-image-tag-reuters-com-2026-newsml-mt1usatoday29470546-850266359-tag-reuters-com-2026-binary-mt1usatoday29470546-baseimage-3709x2473-2026-07-29t144623z-850266359-mt1usatoday29470546-rtrmadp-3-detroit-lions-running-back-jahmyr-gibbs-0-practices-during.JPG",
+            "publishedAt": "2026-08-07T00:53:48Z",
+            "content": "Its clear that both Falcons running back Bijan Robinson and Lions running back Jahmyr Gibbs wanted to get to $25 million in new-money APY on their new contracts. Both can do it, but only by reaching … [+745 chars]"
+        },
+        {
+            "source": {
+                "id": null,
+                "name": "BBC News"
+            },
+            "author": null,
+            "title": "Trump imposes 15% tariff on key chip and solar panel material - BBC",
+            "description": "The move  aims to protect US firms as they face increasing competition from China's chip industry.",
+            "url": "https://www.bbc.com/news/articles/cdrvn686dljo",
+            "urlToImage": "https://ichef.bbci.co.uk/news/1024/branded_news/60dd/live/9a103bd0-91fb-11f1-952a-e58ebd1358f8.jpg",
+            "publishedAt": "2026-08-07T00:44:12Z",
+            "content": "For decades, the US has allowed \"foreign firms to weaken United States producers in the polysilicon sector,\" said Trump, who has long advocated for the use of tariffs to protect American jobs and boo… [+14 chars]"
+        }
+    ]
+}
