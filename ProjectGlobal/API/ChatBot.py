@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 
-# OpenRouter uses the OpenAI SDK framework to connect
 try:
     from openai import OpenAI
 except ImportError:
@@ -36,12 +35,10 @@ except ImportError:
 _THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 _PROJECT_ROOT = os.path.dirname(_THIS_DIR)
 
-PROJECT_INFO_PATH = os.path.join(
-    _PROJECT_ROOT,
-    "api",
-    "data",
-    "Project_Vision.md"
-)
+
+PROJECT_INFO_PATH = os.path.join(_PROJECT_ROOT, "API", "data", "Project_Vision.md")
+if not os.path.exists(PROJECT_INFO_PATH):
+    PROJECT_INFO_PATH = os.path.join(_THIS_DIR, "data", "Project_Vision.md")
 
 load_dotenv()
 
