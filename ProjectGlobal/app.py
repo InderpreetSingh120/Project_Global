@@ -196,11 +196,6 @@ with assistant_tab:
     .status-primary { color: #10b981; }
     .status-fallback { color: #f59e0b; }
     .status-error { color: #ef4444; }
-    .source-expander {
-        border-top: 1px solid rgba(128,128,128,0.15);
-        margin-top: 12px;
-        padding-top: 12px;
-    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -263,29 +258,12 @@ with assistant_tab:
             with st.chat_message(role):
                 st.markdown(content)
 
-                # Model badge + sources
+                # Model badge only (no sources since single knowledge base)
                 if role == "assistant" and model and model not in ["System", "Error", "User"]:
-                    badge_html = f'<span class="model-badge">{model}</span>'
-                    if sources:
-                        badge_html += " " + " ".join(
-                            f'<span class="source-badge">{s.get("title", "Source")}</span>'
-                            for s in sources[:3]
-                        )
-                        if len(sources) > 3:
-                            badge_html += f' <span class="source-badge">+{len(sources)-3} more</span>'
-                    st.markdown(badge_html, unsafe_allow_html=True)
-
-                    # Expandable sources
-                    if sources:
-                        with st.expander("📚 Sources", expanded=False):
-                            for i, src in enumerate(sources, 1):
-                                st.markdown(f"""
-                                **{i}. {src.get('title', 'Unknown')}**  
-                                Source: `{src.get('source', 'Unknown')}`  
-                                Relevance: `{1 - src.get('distance', 1):.2%}`
-                                """)
-                                if i < len(sources):
-                                    st.divider()
+                    st.markdown(
+                        f'<span class="model-badge">{model}</span>',
+                        unsafe_allow_html=True
+                    )
 
     # ── Input ──
     if prompt := st.chat_input("Ask anything about Project Global...", key="assistant_chat"):
