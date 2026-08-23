@@ -1,5 +1,5 @@
-# Streamlit Theme Configuration — Project Global (Light theme only)
-# Professional theme with custom fonts and semantic colors
+# Streamlit Theme Configuration — Project Global
+# Professional theme with light/dark support, custom fonts, and semantic colors
 
 [theme]
 base = "light"
@@ -21,7 +21,7 @@ blueColor = "#3B82F6"
 violetColor = "#9333EA"
 grayColor = "#6B7280"
 
-# Semantic background/text variants
+# Semantic background/text variants (light theme)
 greenBackgroundColor = "#D1FAE5"
 greenTextColor = "#065F46"
 redBackgroundColor = "#FEE2E2"
@@ -61,6 +61,44 @@ baseRadius = "8px"
 buttonRadius = "10px"
 showWidgetBorder = true
 showSidebarBorder = true
+
+# Dark theme — native picker support
+[theme.dark]
+primaryColor = "#60A5FA"
+backgroundColor = "#0F1117"
+secondaryBackgroundColor = "#171A21"
+textColor = "#F3F4F6"
+linkColor = "#60A5FA"
+codeTextColor = "#F3F4F6"
+codeBackgroundColor = "#20242D"
+borderColor = "#2A303B"
+redColor = "#F87171"
+orangeColor = "#FBBF24"
+yellowColor = "#FBBF24"
+greenColor = "#34D399"
+blueColor = "#60A5FA"
+violetColor = "#C084FC"
+grayColor = "#9CA3AF"
+
+# Semantic background/text variants (dark theme)
+greenBackgroundColor = "#0F2A20"
+greenTextColor = "#6EE7B7"
+redBackgroundColor = "#3A1315"
+redTextColor = "#FCA5A5"
+orangeBackgroundColor = "#3A2A0F"
+orangeTextColor = "#FCD34D"
+blueBackgroundColor = "#122A4A"
+blueTextColor = "#93C5FD"
+violetBackgroundColor = "#2A1B3D"
+violetTextColor = "#D8B4FE"
+
+[theme.dark.sidebar]
+backgroundColor = "#171A21"
+secondaryBackgroundColor = "#20242D"
+codeBackgroundColor = "#20242D"
+textColor = "#F3F4F6"
+borderColor = "#2A303B"
+primaryColor = "#60A5FA"
 
 [server]
 headless = true
