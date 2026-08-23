@@ -19,12 +19,31 @@ import plotly.express as px
 LIGHT_BASE = {
     "background": "#F6F8FB",
     "surface": "#FFFFFF",
+    "surface_elevated": "#FFFFFF",   # light mode has no lighter tier than white;
+                                      # elevation reads through shadow/border instead
     "secondary_surface": "#EEF2F7",
     "text_primary": "#172033",
     "text_secondary": "#667085",
-    "text_muted": "#9CA3AF",
+    "text_muted": "#98A2B3",
     "border": "#DDE3EA",
-    "grid": "rgba(21,32,43,0.08)",
+    "grid": "#E5E7EB",
+}
+
+# Dark mode is its own visual language, not an inverted light theme — a
+# deeper background than either surface tier, with "elevated" sitting
+# between the main card surface and the secondary/subtle surface so
+# featured content (hero stat, active chart) reads as lifted without
+# resorting to glow.
+DARK_BASE = {
+    "background": "#0B0F14",
+    "surface": "#121820",
+    "surface_elevated": "#18212B",
+    "secondary_surface": "#1D2732",
+    "text_primary": "#F1F5F9",
+    "text_secondary": "#A8B3C2",
+    "text_muted": "#748196",
+    "border": "#283443",
+    "grid": "#283443",
 }
 
 # Section accent colors (from design brief)
@@ -223,14 +242,65 @@ BREAKPOINTS = {
 # 9. THEME DETECTION & RESOLUTION
 # ════════════════════════════════════════════════════════════════
 
+def sync_theme() -> None:
+    """Poll the live browser theme once per script run and cache the result.
+
+    Call this exactly once, near the top of the script, before the first
+    call to ``is_dark()`` / ``inject_theme_css()`` (e.g. right after
+    ``st.set_page_config``).
+
+    This uses the third-party ``st-theme`` component
+    (``pip install st-theme``, ``from streamlit_theme import st_theme``),
+    which is a genuine bidirectional custom component: when the user
+    switches Light/Dark from Streamlit's own "⋮ → Settings" menu, the
+    browser reports the new value back over the websocket and Streamlit
+    reruns the script with it already available — the same way any other
+    widget triggers a rerun on change.
+
+    That replaces relying solely on ``st.context.theme``, which is why the
+    theme used to only update after switching tabs: Streamlit's own docs
+    note that ``st.context.theme.type`` can be stale immediately after a
+    theme change and isn't guaranteed to trigger a rerun by itself, so the
+    old (stale) value stuck around on screen until *some other* widget
+    interaction — like clicking a nav tab — forced the next script run, by
+    which point ``st.context.theme`` had finally caught up.
+
+    Safe to call even if the ``st-theme`` package isn't installed; it just
+    falls back silently and ``is_dark()`` uses ``st.context.theme`` /
+    ``get_option`` instead.
+    """
+    try:
+        from streamlit_theme import st_theme
+        theme = st_theme()
+        if theme and theme.get("base") in ("light", "dark"):
+            st.session_state["_pg_theme_base"] = theme["base"]
+    except Exception:
+        pass
+
+
 def is_dark() -> bool:
-    """Light theme only."""
-    return False
+    """Whether the active theme is dark.
+
+    Prefers the value cached by ``sync_theme()`` (see above) since it
+    reflects the theme the instant the user changes it. Falls back to
+    ``st.context.theme`` / ``get_option`` if ``sync_theme()`` hasn't run
+    yet or the ``st-theme`` component isn't installed.
+    """
+    cached = st.session_state.get("_pg_theme_base")
+    if cached in ("light", "dark"):
+        return cached == "dark"
+    try:
+        return st.context.theme.type == "dark"
+    except Exception:
+        try:
+            return st.get_option("theme.base") == "dark"
+        except Exception:
+            return False
 
 
 def get_base_colors() -> Dict[str, str]:
-    """Get the base color palette (light theme only)."""
-    return LIGHT_BASE
+    """Get the base color palette for whichever theme is active."""
+    return DARK_BASE if is_dark() else LIGHT_BASE
 
 
 def get_section_theme(section_key: str) -> Dict[str, Any]:
@@ -248,8 +318,9 @@ def get_css_variables(section_key: str = "overview") -> str:
     :root {{
         --bg: {base['background']};
         --surface: {base['surface']};
+        --surface-elevated: {base['surface_elevated']};
         --surface-secondary: {base['secondary_surface']};
-        --surface-hover: {base['secondary_surface'] if dark else base['surface']};
+        --surface-hover: {base['secondary_surface']};
         --border: {base['border']};
         --grid: {base['grid']};
         --text: {base['text_primary']};
@@ -270,6 +341,10 @@ def get_css_variables(section_key: str = "overview") -> str:
         --accent-primary: {section['primary']};
         --accent-secondary: {section['secondary']};
         --accent-gradient: linear-gradient(135deg, {section['primary']}, {section['secondary']});
+        --success: {SEMANTIC['success']};
+        --warning: {SEMANTIC['warning']};
+        --error: {SEMANTIC['error']};
+        --info: {SEMANTIC['info']};
         --font-family: {TYPOGRAPHY['font_family']};
         --font-family-mono: {TYPOGRAPHY['font_family_mono']};
     }}
@@ -496,7 +571,7 @@ def inject_theme_css(section_key: str = "overview") -> None:
     .card {{
         background: var(--surface);
         border: 1px solid var(--border);
-        border-radius: var(--radius-xl);
+        border-radius: var(--radius-lg);
         padding: 1.5rem;
         box-shadow: var(--shadow-resting);
         transition: all var(--transition-normal);
@@ -532,9 +607,9 @@ def inject_theme_css(section_key: str = "overview") -> None:
     }}
     
     .kpi-card {{
-        background: var(--surface);
+        background: var(--surface-elevated);
         border: 1px solid var(--border);
-        border-radius: var(--radius-xl);
+        border-radius: var(--radius-lg);
         padding: 1.25rem;
         box-shadow: var(--shadow-resting);
         transition: all var(--transition-normal);
@@ -568,21 +643,26 @@ def inject_theme_css(section_key: str = "overview") -> None:
     
     .kpi-delta.negative {{ color: var(--error); }}
     
-    /* ─── STATUS BADGES ─── */
+    /* ─── STATUS INDICATORS — small dot + label, never a glowing pill ─── */
     .status-badge {{
-        display: inline-flex; align-items: center; gap: 0.375rem;
-        padding: 0.25rem 0.75rem;
-        border-radius: 9999px;
+        display: inline-flex; align-items: center; gap: 0.45rem;
         font-size: 0.7rem; font-weight: 600;
-        text-transform: uppercase; letter-spacing: 0.02em;
+        text-transform: uppercase; letter-spacing: 0.04em;
+        color: var(--text-secondary);
+    }}
+    .status-badge::before {{
+        content: '';
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        flex-shrink: 0;
     }}
     
-    .status-primary {{ background: rgba(59,130,246,0.15); color: #2563EB; }}
-    .status-fallback {{ background: rgba(99,102,241,0.15); color: #6366F1; }}
-    .status-error {{ background: rgba(239,68,68,0.15); color: #EF4444; }}
-    .status-warning {{ background: rgba(245,158,11,0.15); color: #D97706; }}
-    .status-success {{ background: rgba(16,185,129,0.15); color: #059669; }}
-    .status-neutral {{ background: var(--border); color: var(--text-secondary); }}
+    .status-primary::before {{ background: #2563EB; }}
+    .status-fallback::before {{ background: #6366F1; }}
+    .status-error::before {{ background: #EF4444; }}
+    .status-warning::before {{ background: #D97706; }}
+    .status-success::before {{ background: #10B981; }}
+    .status-neutral::before {{ background: var(--text-muted); }}
     
     /* ─── MODEL BADGE ─── */
     .model-badge {{
@@ -655,15 +735,23 @@ def inject_theme_css(section_key: str = "overview") -> None:
     }}
     
     .stButton > button[kind="primary"] {{
-        background: #2563EB !important;
+        background: var(--accent-primary) !important;
         border: none !important;
         color: white !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+        box-shadow: 0 2px 10px color-mix(in srgb, var(--accent-primary) 30%, transparent) !important;
     }}
 
     .stButton > button[kind="primary"]:hover {{
-        background: #1D4ED8 !important;
-        box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35) !important;
+        filter: brightness(1.1) !important;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.2) !important;
+        box-shadow: 0 4px 16px color-mix(in srgb, var(--accent-primary) 40%, transparent) !important;
         transform: translateY(-1px) !important;
+    }}
+
+    .stButton > button[kind="primary"]:active {{
+        filter: brightness(0.96) !important;
+        transform: translateY(0) !important;
     }}
     
     .stButton > button[kind="secondary"] {{
@@ -674,7 +762,13 @@ def inject_theme_css(section_key: str = "overview") -> None:
     
     .stButton > button[kind="secondary"]:hover {{
         border-color: var(--accent-primary) !important;
+        color: var(--accent-primary) !important;
         background: var(--surface-secondary) !important;
+    }}
+
+    .stButton > button[kind="secondary"]:active {{
+        background: var(--surface-secondary) !important;
+        filter: brightness(0.97) !important;
     }}
     
     /* ─── SELECTBOX / MULTISELECT ─── */
@@ -700,12 +794,15 @@ def inject_theme_css(section_key: str = "overview") -> None:
     }}
     ::-webkit-scrollbar-thumb:hover {{ background: var(--text-muted); }}
     
-    /* ─── ALERTS ─── */
+    /* ─── ALERTS — themed surface so dark mode never inherits a
+       light-only background/text pairing from Streamlit's native theme ─── */
     .stAlert {{
         border-radius: 12px !important;
+        background: var(--surface-secondary) !important;
+        border: 1px solid var(--border) !important;
     }}
 
-    /* ─── TABS (nested chart tabs etc.) — blue underline, never section-colored ─── */
+    /* ─── TABS (nested chart tabs etc.) — solid tinted chip, not a bare underline ─── */
     .stTabs [data-baseweb="tab-list"] {{
         gap: 4px;
         background: transparent;
@@ -718,16 +815,25 @@ def inject_theme_css(section_key: str = "overview") -> None:
         font-weight: 500 !important;
         font-size: 0.875rem !important;
         padding: 0.5rem 1rem !important;
+        border-radius: 8px 8px 0 0 !important;
         white-space: nowrap !important;
         transition: all 0.2s ease !important;
     }}
     .stTabs [data-baseweb="tab"]:hover {{
         color: var(--text) !important;
+        background: var(--surface-secondary) !important;
     }}
     .stTabs [aria-selected="true"] {{
-        background: transparent !important;
+        background: rgba(37, 99, 235, 0.14) !important;
+        background: color-mix(in srgb, #2563EB 14%, transparent) !important;
         color: #2563EB !important;
+        font-weight: 600 !important;
         box-shadow: inset 0 -3px 0 #2563EB !important;
+    }}
+    .stTabs [aria-selected="true"]:hover {{
+        background: rgba(37, 99, 235, 0.14) !important;
+        background: color-mix(in srgb, #2563EB 14%, transparent) !important;
+        color: #2563EB !important;
     }}
     /* tab panel (content area) — ensure dark background in dark mode */
     .stTabs [data-baseweb="tab-panel"] {{
@@ -824,7 +930,6 @@ def render_top_nav() -> str:
 
     Returns the active page key ("overview", "news", ...).
     """
-    # Brand row only (no theme toggle)
     st.markdown(
         '<div class="pg-brand">🌍 PROJECT&nbsp;GLOBAL</div>',
         unsafe_allow_html=True,
@@ -898,19 +1003,11 @@ def inject_polish_css() -> None:
     [data-testid="stMain"] [data-testid="stChatInput"] textarea::placeholder {
         color: var(--text-muted) !important;
     }
-    /* st.info/success/warning/error: let Streamlit's own paired
-       background+text colors win. The blanket stMarkdownContainer rule
-       above also matches the text inside these alerts and was forcing
-       our --text (near-white in dark mode) onto config.toml's semantic
-       alert backgrounds, which only have light-mode-appropriate colors
-       defined (see config.toml — add [theme.dark] variants for
-       redBackgroundColor/redTextColor etc. to fix the background half
-       of this). This selector is more specific than the blanket rule
-       above so it wins even though both use !important. */
-    [data-testid="stMain"] .stAlert [data-testid="stMarkdownContainer"],
-    [data-testid="stMain"] .stAlert [data-testid="stMarkdownContainer"] p {
-        color: revert !important;
-    }
+    /* st.info/success/warning/error now sit on our own theme-aware
+       surface (see .stAlert above) instead of Streamlit's native
+       light-only semantic colors, so the blanket text-color rule
+       above is left in place here rather than reverted — it already
+       resolves to the correct --text for the active theme. */
 
     /* ─── BRAND ─── */
     .pg-brand {
@@ -922,6 +1019,38 @@ def inject_polish_css() -> None:
         background-clip: text;
         color: transparent !important;
         padding: 0.3rem 0;
+    }
+
+    /* ─── THEME TOGGLE — anchor-sibling trick since Streamlit gives
+       widgets no addressable class of their own. Given its own accent
+       border (not the near-invisible surface-secondary-on-bg pairing
+       every other secondary button uses) so it reads as a control at
+       a glance, not just more chrome blending into the top bar. ─── */
+    .pg-theme-toggle-anchor ~ div[data-testid="stButton"] {
+        display: flex;
+        justify-content: flex-end;
+    }
+    .pg-theme-toggle-anchor ~ div[data-testid="stButton"] button {
+        border-radius: 999px !important;
+        padding: 0.4rem 1rem !important;
+        font-size: 0.85rem !important;
+        font-weight: 600 !important;
+        background: var(--surface) !important;
+        border: 1.5px solid var(--accent-primary) !important;
+        color: var(--accent-primary) !important;
+        line-height: 1.2 !important;
+        white-space: nowrap !important;
+    }
+    .pg-theme-toggle-anchor ~ div[data-testid="stButton"] button p {
+        color: var(--accent-primary) !important;
+        font-weight: 600 !important;
+    }
+    .pg-theme-toggle-anchor ~ div[data-testid="stButton"] button:hover {
+        background: var(--accent-primary) !important;
+        color: #fff !important;
+    }
+    .pg-theme-toggle-anchor ~ div[data-testid="stButton"] button:hover p {
+        color: #fff !important;
     }
 
     /* ─── SEGMENTED NAV ─── */
@@ -938,13 +1067,41 @@ def inject_polish_css() -> None:
         font-weight: 600 !important;
         transition: all var(--transition-fast) !important;
     }
-    div[data-baseweb="segmented-control"] button[aria-checked="true"] {
+    div[data-baseweb="segmented-control"] button[aria-checked="false"] {
         background: transparent !important;
-        color: #2563EB !important;
-        box-shadow: inset 0 -3px 0 #2563EB !important;
+        color: var(--text-secondary) !important;
+    }
+    div[data-baseweb="segmented-control"] button[aria-checked="false"] p,
+    div[data-baseweb="segmented-control"] button[aria-checked="false"] div,
+    div[data-baseweb="segmented-control"] button[aria-checked="false"] span {
+        color: var(--text-secondary) !important;
     }
     div[data-baseweb="segmented-control"] button[aria-checked="false"]:hover {
         background: var(--surface-secondary) !important;
+        color: var(--text) !important;
+    }
+    div[data-baseweb="segmented-control"] button[aria-checked="false"]:hover p,
+    div[data-baseweb="segmented-control"] button[aria-checked="false"]:hover div,
+    div[data-baseweb="segmented-control"] button[aria-checked="false"]:hover span {
+        color: var(--text) !important;
+    }
+    /* Selected nav item: solid section-accent fill, not a bare underline —
+       this is the pill that must read as an actual pressed button. */
+    div[data-baseweb="segmented-control"] button[aria-checked="true"] {
+        background: var(--accent-gradient) !important;
+        color: #fff !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.18) !important;
+        box-shadow: 0 2px 10px color-mix(in srgb, var(--accent-primary) 45%, transparent) !important;
+    }
+    div[data-baseweb="segmented-control"] button[aria-checked="true"]:hover {
+        background: var(--accent-gradient) !important;
+        color: #fff !important;
+        filter: brightness(1.05);
+    }
+    div[data-baseweb="segmented-control"] button[aria-checked="true"] p,
+    div[data-baseweb="segmented-control"] button[aria-checked="true"] div,
+    div[data-baseweb="segmented-control"] button[aria-checked="true"] span {
+        color: #fff !important;
     }
 
     /* ─── HERO ─── */
@@ -984,6 +1141,65 @@ def inject_polish_css() -> None:
     .pg-hero h1, .pg-hero p, .pg-hero span {
         color: #fff !important;
         text-shadow: 0 1px 3px rgba(15, 23, 42, 0.35);
+    }
+    .pg-hero h1 {
+        font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+    }
+    .pg-hero-glow-2 {
+        top: auto;
+        right: auto;
+        left: -60px;
+        bottom: -90px;
+        width: 220px;
+        height: 220px;
+        background: rgba(255,255,255,0.10);
+    }
+    .pg-hero-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        margin-bottom: 0.6rem;
+        position: relative;
+        z-index: 1;
+    }
+    .pg-hero-eyebrow {
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        opacity: 0.95;
+    }
+    .pg-hero-live {
+        flex-shrink: 0;
+        background: rgba(255,255,255,.18);
+        padding: 0.3rem 0.85rem;
+        border-radius: 999px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+    }
+    .pg-hero-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1.1rem;
+        position: relative;
+        z-index: 1;
+    }
+    .pg-hero-meta span {
+        background: rgba(255,255,255,.14);
+        border: 1px solid rgba(255,255,255,.22);
+        padding: 0.3rem 0.75rem;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: #fff !important;
+        text-shadow: none;
+    }
+
+    /* ─── IMAGES — soften corners on preview thumbnails (snapshot cards, APOD) ─── */
+    [data-testid="stImage"] img {
+        border-radius: var(--radius-md);
     }
 
     /* ─── SECTION LINK CARDS ─── */
@@ -1156,12 +1372,12 @@ def render_status_bar(
     theme = get_section_theme(section_key)
     
     status_map = {
-        "gemini": ("🟢 Primary", "status-primary", "Gemini Active"),
-        "openrouter": ("🔄 Fallback", "status-fallback", "OpenRouter Active"),
-        "cohere": ("🔄 Fallback", "status-fallback", "Cohere Active"),
-        "none": ("⚪ No Backend", "status-error", "Check API Keys"),
+        "gemini": ("Primary", "status-primary", "Gemini Active"),
+        "openrouter": ("Fallback", "status-fallback", "OpenRouter Active"),
+        "cohere": ("Fallback", "status-fallback", "Cohere Active"),
+        "none": ("No Backend", "status-error", "Check API Keys"),
     }
-    label, css_class, tooltip = status_map.get(active_backend, ("⚪ Unknown", "status-error", ""))
+    label, css_class, tooltip = status_map.get(active_backend, ("Unknown", "status-error", ""))
     
     st.markdown(f"""
     <div class="status-bar">
@@ -1224,7 +1440,7 @@ def render_chart_container(
 # 12. PLOTLY THEME STYLING
 # ═══════════════════════════════════════════════════════════════
 
-def get_plotly_template() -> Dict:
+def get_plotly_template(section_key: str = "overview") -> Dict:
     """Get theme-aware Plotly template."""
     dark = is_dark()
     base = get_base_colors()
@@ -1232,8 +1448,8 @@ def get_plotly_template() -> Dict:
     return {
         "layout": {
             "font": {"family": TYPOGRAPHY["font_family"], "color": base["text_primary"]},
-            "paper_bgcolor": base["background"],
-            "plot_bgcolor": base["background"],
+            "paper_bgcolor": "rgba(0,0,0,0)",
+            "plot_bgcolor": "rgba(0,0,0,0)",
             "title": {
                 "font": {"size": 16, "color": base["text_primary"], "family": TYPOGRAPHY["font_family"]},
                 "x": 0.5, "xanchor": "center",
@@ -1263,7 +1479,7 @@ def get_plotly_template() -> Dict:
                 "xanchor": "right",
                 "x": 1,
             },
-            "colorway": CATEGORICAL,
+            "colorway": get_section_colorway(section_key),
             "hoverlabel": {
                 "bgcolor": base["surface"],
                 "font": {"color": base["text_primary"], "size": 12},
@@ -1273,6 +1489,15 @@ def get_plotly_template() -> Dict:
             "hovermode": "x unified",
         }
     }
+
+
+def get_section_colorway(section_key: str) -> List[str]:
+    """Chart series palette led by the section's own accent pair, falling
+    back to the shared categorical palette for additional series."""
+    section = get_section_theme(section_key)
+    lead = [section["primary"], section["secondary"]]
+    rest = [c for c in CATEGORICAL if c not in lead]
+    return lead + rest
 
 
 def style_plotly(
@@ -1301,10 +1526,11 @@ def style_plotly(
         height=height,
         showlegend=show_legend,
         font={"family": TYPOGRAPHY["font_family"], "color": base["text_primary"]},
-        paper_bgcolor=base["background"],
-        plot_bgcolor=base["background"],
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
         margin={"l": 60, "r": 30, "t": 60, "b": 50},
         hovermode="x unified",
+        colorway=get_section_colorway(section_key),
         legend={
             "bgcolor": "rgba(0,0,0,0)",
             "font": {"color": base["text_primary"], "size": 11},
@@ -1372,6 +1598,7 @@ def format_number(value: float, decimals: int = 1) -> str:
 
 __all__ = [
     # Theme detection
+    "sync_theme",
     "is_dark",
     "get_base_colors",
     "get_section_theme",
@@ -1404,13 +1631,14 @@ __all__ = [
     # Plotly
     "get_plotly_template",
     "style_plotly",
+    "get_section_colorway",
     
     # Colors
     "get_weather_color",
     "get_aqi_color",
     
     # Constants
-    "LIGHT_BASE",
+    "LIGHT_BASE", "DARK_BASE",
     "SECTION_ACCENTS", "SEMANTIC", "CATEGORICAL",
     "WEATHER_COLORS", "AQI_COLORS",
     "TYPOGRAPHY", "SPACING", "RADIUS", "SHADOWS_LIGHT", "SHADOWS_DARK",
