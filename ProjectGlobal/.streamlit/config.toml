@@ -1,16 +1,72 @@
-# Streamlit Theme Configuration
+# Streamlit Theme Configuration — Project Global (Light theme only)
+# Professional theme with custom fonts and semantic colors
+
 [theme]
-primaryColor = "#2563eb"
-backgroundColor = "#ffffff"
-secondaryBackgroundColor = "#f8fafc"
-textColor = "#1e293b"
-font = "sans serif"
 base = "light"
+primaryColor = "#3B82F6"
+backgroundColor = "#F6F8FB"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#172033"
+linkColor = "#3B82F6"
+codeTextColor = "#172033"
+codeBackgroundColor = "#EEF2F7"
+borderColor = "#DDE3EA"
+
+# Semantic colors for badges, markdown coloring, sparklines
+redColor = "#EF4444"
+orangeColor = "#F59E0B"
+yellowColor = "#F59E0B"
+greenColor = "#10B981"
+blueColor = "#3B82F6"
+violetColor = "#9333EA"
+grayColor = "#6B7280"
+
+# Semantic background/text variants
+greenBackgroundColor = "#D1FAE5"
+greenTextColor = "#065F46"
+redBackgroundColor = "#FEE2E2"
+redTextColor = "#991B1B"
+orangeBackgroundColor = "#FEF3C7"
+orangeTextColor = "#92400E"
+blueBackgroundColor = "#DBEAFE"
+blueTextColor = "#1E40AF"
+violetBackgroundColor = "#F3E8FF"
+violetTextColor = "#6B21A8"
+
+# Chart colors
+chartCategoricalColors = ["#3B82F6", "#10B981", "#F59E0B", "#EF4444", "#9333EA", "#06B6D4", "#F97316", "#EC4899", "#65A30D", "#8B5CF6"]
+chartSequentialColors = ["#F0F9FF", "#E0F2FE", "#BAE6FD", "#7DD3FC", "#38BDF8", "#0EA5E9", "#0284C7", "#0369A1", "#075985", "#0C4A6E"]
+
+# Dataframe styling
+dataframeBorderColor = "#DDE3EA"
+dataframeHeaderBackgroundColor = "#EEF2F7"
+
+# Typography — Google Fonts
+font = "Inter:https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+headingFont = "Inter:https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&display=swap"
+codeFont = "'JetBrains Mono':https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap"
+
+baseFontSize = 14
+baseFontWeight = 400
+codeFontSize = "0.875rem"
+codeFontWeight = 400
+
+headingFontSizes = ["32px", "24px", "20px", "16px", "14px", "12px"]
+headingFontWeights = [700, 700, 600, 600, 600, 500]
+
+linkUnderline = false
+
+# Border and radius
+baseRadius = "8px"
+buttonRadius = "10px"
+showWidgetBorder = true
+showSidebarBorder = true
 
 [server]
 headless = true
 enableCORS = false
 enableXsrfProtection = true
+port = 8501
 
 [browser]
 gatherUsageStats = false
