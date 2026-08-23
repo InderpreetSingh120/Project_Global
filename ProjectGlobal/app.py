@@ -87,11 +87,6 @@ def page_header(key: str) -> None:
 # OVERVIEW  (redesigned home)
 # ═══════════════════════════════════════════
 def render_overview():
-    st.write(st.session_state.get("theme_mode_explicit"), st.session_state.get("theme_mode"))
-    try:
-        st.write(st.context.theme)
-    except Exception as e:
-        st.write("st.context.theme failed:", e)
     st.markdown("""
     <div class="pg-hero">
         <div class="pg-hero-glow"></div>
