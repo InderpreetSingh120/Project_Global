@@ -1,6 +1,7 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
-from API.NASA import get_apod
+from API.NASA import get_apod, resolve_apod_media
 from API.News import get_news, search_query
 from API.ChatBot import Chatbot, PROJECT_INFO_PATH, RAG_AVAILABLE
 from API.Weather import (
@@ -9,7 +10,7 @@ from API.Weather import (
     create_aqi_forecast_chart,
 )
 from API.ui import (
-    consume_pending_page, get_active_page,
+    consume_pending_page, get_active_page, sync_theme,
     inject_theme_css, inject_polish_css, render_top_nav, go_to_page,
     get_page, get_section_theme, PAGES, render_kpi_card, style_plotly,
 )
@@ -67,6 +68,7 @@ if "speed_history" not in st.session_state:
 # ═══════════════════════════════════════════
 # Theme + Top Navigation Chrome
 # ═══════════════════════════════════════════
+sync_theme()  # must run before anything that calls is_dark()
 consume_pending_page()
 
 page = get_active_page()
@@ -87,16 +89,26 @@ def page_header(key: str) -> None:
 # OVERVIEW  (redesigned home)
 # ═══════════════════════════════════════════
 def render_overview():
-    st.markdown("""
+    from datetime import datetime
+
+    hour = datetime.now().hour
+    greeting = "Good morning" if hour < 12 else "Good afternoon" if hour < 18 else "Good evening"
+
+    st.markdown(f"""
     <div class="pg-hero">
         <div class="pg-hero-glow"></div>
-        <span style="position:absolute; top:1.6rem; right:2rem; background:rgba(255,255,255,.18);
-              padding:.3rem .85rem; border-radius:999px; font-size:.75rem; font-weight:700;
-              letter-spacing:.12em;">● LIVE</span>
-        <h1>🌍 PROJECT GLOBAL</h1>
-        <p>Global data, intelligence and visualization — live headlines, weather & air quality,
-           NASA's daily image, worldwide connectivity metrics, LLM rankings and happiness research,
-           all in one dashboard.</p>
+        <div class="pg-hero-glow pg-hero-glow-2"></div>
+        <div class="pg-hero-top">
+            <span class="pg-hero-eyebrow">🌍 {greeting} — your global data command center</span>
+            <span class="pg-hero-live">● LIVE</span>
+        </div>
+        <h1>Project Global</h1>
+        <p>Real-time headlines, weather &amp; air quality, NASA's daily image, worldwide
+           connectivity, LLM leaderboard rankings and happiness research — all in one place.</p>
+        <div class="pg-hero-meta">
+            <span>📰 News</span><span>⛅ Weather &amp; AQI</span><span>🚀 NASA APOD</span>
+            <span>🌐 Internet</span><span>🤖 AI Models</span><span>😊 Happiness</span>
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -123,7 +135,54 @@ def render_overview():
 
     st.space("large")
 
-    # World map hero card
+    # ═══ Today's snapshot — a real preview from each live source ═══
+    st.markdown("#### ✨ Today's snapshot")
+    st.caption("A quick look at what's live right now — tap through for the full picture.")
+    snap_cols = st.columns(3)
+
+    with snap_cols[0]:
+        with st.container(border=True):
+            st.badge("NASA · APOD", color="violet")
+            if nasadata:
+                media = resolve_apod_media(nasadata)
+                thumb = media.get("thumb_url") or media.get("display_url")
+                if thumb and media.get("kind") in ("image", "video"):
+                    st.image(thumb, width="stretch")
+                st.markdown(f"**{(nasadata.get('title') or 'Picture of the day')}**")
+                st.caption(nasadata.get("date", ""))
+            else:
+                st.warning("NASA data unavailable right now.")
+            if st.button("View today's image →", key="snap_nasa", width="stretch"):
+                go_to_page("nasa")
+
+    with snap_cols[1]:
+        with st.container(border=True):
+            st.badge("Top story", color="blue")
+            articles = (newsdata or {}).get("articles", [])
+            if articles:
+                top = articles[0]
+                st.markdown(f"**{top.get('title', 'Untitled')}**")
+                desc = top.get("description") or "No description available."
+                st.caption(desc[:140] + ("…" if len(desc) > 140 else ""))
+            else:
+                st.warning("No headlines available right now.")
+            if st.button("Read the headlines →", key="snap_news", width="stretch"):
+                go_to_page("news")
+
+    with snap_cols[2]:
+        with st.container(border=True):
+            st.badge("Weather now", color="blue")
+            if w:
+                st.markdown(f"**{w['temp']:.0f}°C** · {w['condition']}")
+                st.caption(f"{w['name']}, {w['country']}")
+            else:
+                st.warning("Weather unavailable right now.")
+            if st.button("Check any city →", key="snap_weather", width="stretch"):
+                go_to_page("weather")
+
+    st.space("large")
+
+    # ═══ World map — chip selector + quick-read insight strip ═══
     try:
         from API.Internet_data import load_internet_data, create_metric_map, get_available_years
 
@@ -132,22 +191,45 @@ def render_overview():
             "Internet users (%)", "Cellular subscriptions",
             "Number of internet users", "Broadband subscriptions",
         ]
-        sel_metric = st.selectbox("Map metric", metric_options,
-                                  key="overview_map_metric", label_visibility="collapsed")
-        years = get_available_years(df, sel_metric)
-        latest = max(years) if years else None
 
         with st.container(border=True):
-            col_title, col_year = st.columns([4, 1])
-            with col_title:
-                st.markdown(f"#### 🌍 World Map — {sel_metric}")
-                st.caption("Pick a metric above · hover a country for details")
-            with col_year:
-                st.badge(f"📅 {latest}", color="blue")
+            st.markdown("#### 🌍 Global connectivity")
+            st.caption("Pick a metric to see how it's spread across the world")
+
+            st.session_state.setdefault("overview_map_metric_sc", metric_options[0])
+            sel_metric = st.segmented_control(
+                "Map metric", metric_options, selection_mode="single",
+                key="overview_map_metric_sc", label_visibility="collapsed",
+            ) or metric_options[0]
+
+            years = get_available_years(df, sel_metric)
+            latest = max(years) if years else None
+            st.badge(f"📅 Data year: {latest}" if latest else "📅 Data year: —", color="blue")
 
             fig = create_metric_map(df, metric=sel_metric, year=latest)
-            fig = style_plotly(fig, height=480, section_key="overview")
+            fig = style_plotly(fig, height=460, section_key="overview")
             st.plotly_chart(fig, width="stretch")
+
+            # Insight strip — a quick read on the map without leaving Overview
+            if latest is not None and sel_metric in df.columns:
+                year_df = df[df["Year"] == latest]
+                valid = year_df.dropna(subset=[sel_metric])
+                has_entity = "Entity" in valid.columns
+                coverage = int(valid["Entity"].nunique()) if has_entity and not valid.empty else int(len(valid))
+                avg_val = valid[sel_metric].mean() if not valid.empty else None
+                leader = valid.nlargest(1, sel_metric) if not valid.empty else valid
+
+                ic1, ic2, ic3 = st.columns(3)
+                with ic1:
+                    st.metric("Countries with data", f"{coverage}")
+                with ic2:
+                    st.metric("Global average", f"{avg_val:,.1f}" if avg_val is not None else "—")
+                with ic3:
+                    if not leader.empty and has_entity:
+                        st.metric("Leading", str(leader.iloc[0]["Entity"]),
+                                   f"{leader.iloc[0][sel_metric]:,.1f}")
+                    else:
+                        st.metric("Leading", "—")
     except Exception as e:
         st.warning(f"World map unavailable: {e}")
 
@@ -365,13 +447,36 @@ def render_nasa():
         st.badge(f"📅 {nasadata.get('date', 'N/A')}", color="violet")
         st.space("small")
 
-        if nasadata.get("url"):
-            st.image(nasadata["url"], width="stretch")
+        media = resolve_apod_media(nasadata)
+
+        if media["kind"] == "video":
+            if media["thumb_url"]:
+                st.image(media["thumb_url"], width="stretch")
+                st.caption("Click play on the video below →")
+            if media["player"] == "iframe":
+                # Vimeo (and any other non-YouTube host we recognize) has
+                # no native st.video() support — embed it directly, the
+                # same way any website embeds a third-party video player.
+                components.iframe(media["display_url"], height=480)
+            else:
+                # "native" — YouTube or a direct video file, both of
+                # which st.video() understands on its own.
+                st.video(media["display_url"])
+        elif media["kind"] == "image":
+            st.image(media["display_url"], width="stretch")
+        elif media["kind"] == "unsupported" and media["external_url"]:
+            st.info("This APOD entry's media type isn't supported for inline display.")
+            st.link_button("Open on NASA APOD ↗", media["external_url"], icon="🔗")
+        else:
+            st.warning("No media URL was returned for this APOD entry.")
 
         st.space("medium")
         with st.container(border=True, horizontal_alignment="center"):
             st.markdown("### 🔭 Explanation")
             st.markdown(nasadata.get('explanation', 'No explanation available.'))
+
+        with st.expander("Debug: raw APOD payload"):
+            st.json(nasadata)
     else:
         st.error("Failed to retrieve NASA data. Please check your NASA API key.")
 
