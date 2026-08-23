@@ -6,7 +6,6 @@ python-dotenv
 google-genai
 openai
 cohere
-statsmodels
 sentence-transformers
-tqdm
+torch
 chromadb
