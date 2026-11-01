@@ -10,3 +10,4 @@ cohere
 sentence-transformers
 torch
 chromadb
+statsmodels>=0.14
